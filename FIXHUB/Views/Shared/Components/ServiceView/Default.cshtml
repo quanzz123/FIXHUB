@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Service>
+
+<section class="section-margin mt-0">
+    <div class="owl-carousel owl-theme hero-carousel">
+
+        @foreach(var service in Model) {
+
+            <div class="hero-carousel__slide">
+                <img src="~/img/Services/@service.ImageUrl" alt="" class="img-fluid">
+                <a href="#" class="hero-carousel__slideOverlay">
+                    <h3>@service.ServiceName</h3>
+                    <p>@service.ServiceDesc</p>
+                </a>
+            </div>
+
+        }
+        
+    </div>
+</section>

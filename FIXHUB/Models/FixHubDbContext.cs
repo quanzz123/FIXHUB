@@ -25,6 +25,10 @@ public partial class FixHubDbContext : DbContext
 
     public virtual DbSet<Menu> Menus { get; set; }
 
+    public virtual DbSet<News> News { get; set; }
+
+    public virtual DbSet<NewsComment> NewsComments { get; set; }
+
     public virtual DbSet<OrderDetail> OrderDetails { get; set; }
 
     public virtual DbSet<Product> Products { get; set; }
@@ -40,6 +44,8 @@ public partial class FixHubDbContext : DbContext
     public virtual DbSet<RequestImage> RequestImages { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
+
+    public virtual DbSet<Service> Services { get; set; }
 
     public virtual DbSet<ServiceRequest> ServiceRequests { get; set; }
 
@@ -59,7 +65,8 @@ public partial class FixHubDbContext : DbContext
 
     public virtual DbSet<UserRole> UserRoles { get; set; }
 
-   
+    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<ForumComment>(entity =>
@@ -106,6 +113,12 @@ public partial class FixHubDbContext : DbContext
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
             entity.Property(e => e.CategoryName).HasMaxLength(100);
             entity.Property(e => e.Description).HasMaxLength(255);
+            entity.Property(e => e.ImgUrl).IsUnicode(false);
+            entity.Property(e => e.ParentId).HasColumnName("ParentID");
+
+            entity.HasOne(d => d.Parent).WithMany(p => p.InverseParent)
+                .HasForeignKey(d => d.ParentId)
+                .HasConstraintName("FK_GuideCategories_GuideCategories");
         });
 
         modelBuilder.Entity<GuideStep>(entity =>
@@ -136,6 +149,54 @@ public partial class FixHubDbContext : DbContext
             entity.HasOne(d => d.Parent).WithMany(p => p.InverseParent)
                 .HasForeignKey(d => d.ParentId)
                 .HasConstraintName("FK_Menus_Menus");
+        });
+
+        modelBuilder.Entity<News>(entity =>
+        {
+            entity.HasKey(e => e.NewsId).HasName("PK__News__954EBDD3006831F9");
+
+            entity.Property(e => e.NewsId).HasColumnName("NewsID");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.ImageUrl).HasMaxLength(255);
+            entity.Property(e => e.IsPublished).HasDefaultValue(false);
+            entity.Property(e => e.Summary).HasMaxLength(500);
+            entity.Property(e => e.Title).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+            entity.Property(e => e.ViewCount).HasDefaultValue(0);
+
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.News)
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("FK__News__CreatedBy__2BFE89A6");
+        });
+
+        modelBuilder.Entity<NewsComment>(entity =>
+        {
+            entity.HasKey(e => e.CommentId).HasName("PK__NewsComm__C3B4DFAA60623B23");
+
+            entity.Property(e => e.CommentId).HasColumnName("CommentID");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.IsApproved).HasDefaultValue(true);
+            entity.Property(e => e.NewsId).HasColumnName("NewsID");
+            entity.Property(e => e.ParentId).HasColumnName("ParentID");
+            entity.Property(e => e.UserId).HasColumnName("UserID");
+
+            entity.HasOne(d => d.News).WithMany(p => p.NewsComments)
+                .HasForeignKey(d => d.NewsId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__NewsComme__NewsI__30C33EC3");
+
+            entity.HasOne(d => d.Parent).WithMany(p => p.InverseParent)
+                .HasForeignKey(d => d.ParentId)
+                .HasConstraintName("FK__NewsComme__Paren__32AB8735");
+
+            entity.HasOne(d => d.User).WithMany(p => p.NewsComments)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__NewsComme__UserI__31B762FC");
         });
 
         modelBuilder.Entity<OrderDetail>(entity =>
@@ -264,6 +325,12 @@ public partial class FixHubDbContext : DbContext
             entity.Property(e => e.RoleId).HasColumnName("RoleID");
             entity.Property(e => e.Description).HasMaxLength(255);
             entity.Property(e => e.RoleName).HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<Service>(entity =>
+        {
+            entity.Property(e => e.ServiceId).HasColumnName("ServiceID");
+            entity.Property(e => e.ServiceName).HasMaxLength(50);
         });
 
         modelBuilder.Entity<ServiceRequest>(entity =>

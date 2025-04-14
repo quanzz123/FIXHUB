@@ -1,4 +1,11 @@
-﻿<main class="site-main">
+﻿@{
+    List<News> listnewss = ViewBag.News;
+    
+
+}﻿
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+<main class="site-main">
 
     <!--================ Hero banner start =================-->
     <section class="hero-banner">
@@ -11,10 +18,38 @@
                 </div>
                 <div class="col-sm-7 col-lg-6 offset-lg-1 pl-4 pl-md-5 pl-lg-0">
                     <div class="hero-banner__content">
-                        <h4>Shop is fun</h4>
-                        <h1>Browse Our Premium Product</h1>
-                        <p>Us which over of signs divide dominion deep fill bring they're meat beho upon own earth without morning over third. Their male dry. They are great appear whose land fly grass.</p>
-                        <a class="button button-hero" href="#">Browse Now</a>
+                        <h4>Sửa chữa là niềm vui</h4>
+                        <h1>Khám phá thế giới sửa chữa</h1>
+                        <p>Nơi chia sẻ kiến thức, công cụ và cộng đồng sửa chữa dành cho mọi người — từ những người mới bắt đầu đến thợ lành nghề, cùng nhau học hỏi, trao đổi kinh nghiệm và lan tỏa tinh thần tự sửa chữa.</p>
+                        @* <a class="button button-hero" href="#">Browse Now</a> *@
+                        <div class="search-container mt-4">
+                            <input type="text" class="form-control search-input" placeholder="Tìm kiếm...">
+                            <i class="fas fa-search search-icon"></i>
+                        </div>
+                        <style>
+
+
+                            .search-container {
+                                position: relative;
+                            }
+
+                            .search-input {
+                                height: 50px;
+                                border-radius: 30px;
+                                padding-left: 35px;
+                                border: none;
+                                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                            }
+
+                            .search-icon {
+                                position: absolute;
+                                top: 50%;
+                                left: 15px;
+                                transform: translateY(-50%);
+                                color: #888;
+                            }
+
+                        </style>
                     </div>
                 </div>
             </div>
@@ -22,177 +57,17 @@
     </section>
     <!--================ Hero banner start =================-->
     <!--================ Hero Carousel start =================-->
-    <section class="section-margin mt-0">
-        <div class="owl-carousel owl-theme hero-carousel">
-            <div class="hero-carousel__slide">
-                <img src="~/img/home/hero-slide1.png" alt="" class="img-fluid">
-                <a href="#" class="hero-carousel__slideOverlay">
-                    <h3>Wireless Headphone</h3>
-                    <p>Accessories Item</p>
-                </a>
-            </div>
-            <div class="hero-carousel__slide">
-                <img src="~/img/home/hero-slide2.png" alt="" class="img-fluid">
-                <a href="#" class="hero-carousel__slideOverlay">
-                    <h3>Wireless Headphone</h3>
-                    <p>Accessories Item</p>
-                </a>
-            </div>
-            <div class="hero-carousel__slide">
-                <img src="~/img/home/hero-slide3.png" alt="" class="img-fluid">
-                <a href="#" class="hero-carousel__slideOverlay">
-                    <h3>Wireless Headphone</h3>
-                    <p>Accessories Item</p>
-                </a>
-            </div>
-        </div>
-    </section>
+    @await Component.InvokeAsync("ServiceView")
     <!--================ Hero Carousel end =================-->
     <!-- ================ trending product section start ================= -->
     <section class="section-margin calc-60px">
         <div class="container">
             <div class="section-intro pb-60px">
-                <p>Popular Item in the market</p>
-                <h2>Trending <span class="section-intro__style">Product</span></h2>
+                <p>Danh mục hướng dẫn phổ biến</p>
+                <h2>Top <span class="section-intro__style">Danh mục</span></h2>
             </div>
-            <div class="row">
-                <div class="col-md-6 col-lg-4 col-xl-3">
-                    <div class="card text-center card-product">
-                        <div class="card-product__img">
-                            <img class="card-img" src="~/img/product/product1.png" alt="">
-                            <ul class="card-product__imgOverlay">
-                                <li><button><i class="ti-search"></i></button></li>
-                                <li><button><i class="ti-shopping-cart"></i></button></li>
-                                <li><button><i class="ti-heart"></i></button></li>
-                            </ul>
-                        </div>
-                        <div class="card-body">
-                            <p>Accessories</p>
-                            <h4 class="card-product__title"><a href="single-product.html">Quartz Belt Watch</a></h4>
-                            <p class="card-product__price">$150.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 col-xl-3">
-                    <div class="card text-center card-product">
-                        <div class="card-product__img">
-                            <img class="card-img" src="~/img/product/product2.png" alt="">
-                            <ul class="card-product__imgOverlay">
-                                <li><button><i class="ti-search"></i></button></li>
-                                <li><button><i class="ti-shopping-cart"></i></button></li>
-                                <li><button><i class="ti-heart"></i></button></li>
-                            </ul>
-                        </div>
-                        <div class="card-body">
-                            <p>Beauty</p>
-                            <h4 class="card-product__title"><a href="single-product.html">Women Freshwash</a></h4>
-                            <p class="card-product__price">$150.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 col-xl-3">
-                    <div class="card text-center card-product">
-                        <div class="card-product__img">
-                            <img class="card-img" src="~/img/product/product3.png" alt="">
-                            <ul class="card-product__imgOverlay">
-                                <li><button><i class="ti-search"></i></button></li>
-                                <li><button><i class="ti-shopping-cart"></i></button></li>
-                                <li><button><i class="ti-heart"></i></button></li>
-                            </ul>
-                        </div>
-                        <div class="card-body">
-                            <p>Decor</p>
-                            <h4 class="card-product__title"><a href="single-product.html">Room Flash Light</a></h4>
-                            <p class="card-product__price">$150.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 col-xl-3">
-                    <div class="card text-center card-product">
-                        <div class="card-product__img">
-                            <img class="card-img" src="~/img/product/product4.png" alt="">
-                            <ul class="card-product__imgOverlay">
-                                <li><button><i class="ti-search"></i></button></li>
-                                <li><button><i class="ti-shopping-cart"></i></button></li>
-                                <li><button><i class="ti-heart"></i></button></li>
-                            </ul>
-                        </div>
-                        <div class="card-body">
-                            <p>Decor</p>
-                            <h4 class="card-product__title"><a href="single-product.html">Room Flash Light</a></h4>
-                            <p class="card-product__price">$150.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 col-xl-3">
-                    <div class="card text-center card-product">
-                        <div class="card-product__img">
-                            <img class="card-img" src="~/img/product/product5.png" alt="">
-                            <ul class="card-product__imgOverlay">
-                                <li><button><i class="ti-search"></i></button></li>
-                                <li><button><i class="ti-shopping-cart"></i></button></li>
-                                <li><button><i class="ti-heart"></i></button></li>
-                            </ul>
-                        </div>
-                        <div class="card-body">
-                            <p>Accessories</p>
-                            <h4 class="card-product__title"><a href="single-product.html">Man Office Bag</a></h4>
-                            <p class="card-product__price">$150.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 col-xl-3">
-                    <div class="card text-center card-product">
-                        <div class="card-product__img">
-                            <img class="card-img" src="~/img/product/product6.png" alt="">
-                            <ul class="card-product__imgOverlay">
-                                <li><button><i class="ti-search"></i></button></li>
-                                <li><button><i class="ti-shopping-cart"></i></button></li>
-                                <li><button><i class="ti-heart"></i></button></li>
-                            </ul>
-                        </div>
-                        <div class="card-body">
-                            <p>Kids Toy</p>
-                            <h4 class="card-product__title"><a href="single-product.html">Charging Car</a></h4>
-                            <p class="card-product__price">$150.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 col-xl-3">
-                    <div class="card text-center card-product">
-                        <div class="card-product__img">
-                            <img class="card-img" src="~/img/product/product7.png" alt="">
-                            <ul class="card-product__imgOverlay">
-                                <li><button><i class="ti-search"></i></button></li>
-                                <li><button><i class="ti-shopping-cart"></i></button></li>
-                                <li><button><i class="ti-heart"></i></button></li>
-                            </ul>
-                        </div>
-                        <div class="card-body">
-                            <p>Accessories</p>
-                            <h4 class="card-product__title"><a href="single-product.html">Blutooth Speaker</a></h4>
-                            <p class="card-product__price">$150.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 col-xl-3">
-                    <div class="card text-center card-product">
-                        <div class="card-product__img">
-                            <img class="card-img" src="~/img/product/product8.png" alt="">
-                            <ul class="card-product__imgOverlay">
-                                <li><button><i class="ti-search"></i></button></li>
-                                <li><button><i class="ti-shopping-cart"></i></button></li>
-                                <li><button><i class="ti-heart"></i></button></li>
-                            </ul>
-                        </div>
-                        <div class="card-body">
-                            <p>Kids Toy</p>
-                            <h4 class="card-product__title"><a href="#">Charging Car</a></h4>
-                            <p class="card-product__price">$150.00</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @await Component.InvokeAsync("GuidesCategoryView", new { levels = 1 })
+
         </div>
     </section>
     <!-- ================ trending product section end ================= -->
@@ -355,61 +230,31 @@
     <section class="blog">
         <div class="container">
             <div class="section-intro pb-60px">
-                <p>Popular Item in the market</p>
-                <h2>Latest <span class="section-intro__style">News</span></h2>
+                <p>Cập nhật các tin tức mới nhất</p>
+                <h2>Tin tức <span class="section-intro__style">quan trọng</span></h2>
             </div>
 
             <div class="row">
-                <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
-                    <div class="card card-blog">
-                        <div class="card-blog__img">
-                            <img class="card-img rounded-0" src="~/img/blog/blog1.png" alt="">
-                        </div>
-                        <div class="card-body">
-                            <ul class="card-blog__info">
-                                <li><a href="#">By Admin</a></li>
-                                <li><a href="#"><i class="ti-comments-smiley"></i> 2 Comments</a></li>
-                            </ul>
-                            <h4 class="card-blog__title"><a href="single-blog.html">The Richland Center Shooping News and weekly shooper</a></h4>
-                            <p>Let one fifth i bring fly to divided face for bearing divide unto seed. Winged divided light Forth.</p>
-                            <a class="card-blog__link" href="#">Read More <i class="ti-arrow-right"></i></a>
+                @foreach(var n in listnewss) {
+                    <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
+                        <div class="card card-blog">
+                            <div class="card-blog__img">
+                                <img class="card-img rounded-0" src="~/img/News/@n.ImageUrl" alt="">
+                            </div>
+                            <div class="card-body">
+                                <ul class="card-blog__info">
+                                    <li><a href="#">By Admin</a></li>
+                                    <li><a href="#"><i class="ti-comments-smiley"></i> 2 Comments</a></li>
+                                </ul>
+                                <h4 class="card-blog__title"><a href="single-blog.html">@n.Title</a></h4>
+                                <p>@n.Summary</p>
+                                <a class="card-blog__link" href="#">Xem thêm <i class="ti-arrow-right"></i></a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
+               
 
-                <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
-                    <div class="card card-blog">
-                        <div class="card-blog__img">
-                            <img class="card-img rounded-0" src="~/img/blog/blog2.png" alt="">
-                        </div>
-                        <div class="card-body">
-                            <ul class="card-blog__info">
-                                <li><a href="#">By Admin</a></li>
-                                <li><a href="#"><i class="ti-comments-smiley"></i> 2 Comments</a></li>
-                            </ul>
-                            <h4 class="card-blog__title"><a href="single-blog.html">The Shopping News also offers top-quality printing services</a></h4>
-                            <p>Let one fifth i bring fly to divided face for bearing divide unto seed. Winged divided light Forth.</p>
-                            <a class="card-blog__link" href="#">Read More <i class="ti-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
-                    <div class="card card-blog">
-                        <div class="card-blog__img">
-                            <img class="card-img rounded-0" src="~/img/blog/blog3.png" alt="">
-                        </div>
-                        <div class="card-body">
-                            <ul class="card-blog__info">
-                                <li><a href="#">By Admin</a></li>
-                                <li><a href="#"><i class="ti-comments-smiley"></i> 2 Comments</a></li>
-                            </ul>
-                            <h4 class="card-blog__title"><a href="single-blog.html">Professional design staff and efficient equipment you’ll find we offer</a></h4>
-                            <p>Let one fifth i bring fly to divided face for bearing divide unto seed. Winged divided light Forth.</p>
-                            <a class="card-blog__link" href="#">Read More <i class="ti-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>

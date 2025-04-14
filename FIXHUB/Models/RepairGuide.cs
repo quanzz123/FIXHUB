@@ -21,11 +21,15 @@ public partial class RepairGuide
 
     public DateTime? UpdatedAt { get; set; }
 
-    public virtual GuideCategory? Category { get; set; }
+    public int? UserId { get; set; }
 
-    public virtual User? CreatedByNavigation { get; set; }
+    public string? ImgUrl { get; set; }
+
+    public virtual GuideCategory? Category { get; set; }
 
     public virtual ICollection<GuideStep> GuideSteps { get; set; } = new List<GuideStep>();
 
     public virtual ICollection<Teardown> Teardowns { get; set; } = new List<Teardown>();
+
+    public virtual User? User { get; set; }
 }

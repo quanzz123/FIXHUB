@@ -6,7 +6,7 @@
         var Smenu = Model.Where(p => p.ParentId == PID).OrderBy(o => o.Positions).ToList();
 
         if(Smenu.Count == 0) {
-            <li class="nav-item active"><a class="nav-link" href="index.html">@menu.Title</a></li>
+            <li class="nav-item active"><a class="nav-link" href="@menu.Url">@menu.Title</a></li>
         } else {
             <li class="nav-item submenu dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -14,7 +14,7 @@
                 <ul class="dropdown-menu">
                     @foreach(var smn in Smenu) {
 
-                        <li class="nav-item"><a class="nav-link" href="category.html">@smn.Title</a></li>
+                        <li class="nav-item"><a class="nav-link" href="@smn.Url">@smn.Title</a></li>
                         
                     }
                     @* <li class="nav-item"><a class="nav-link" href="single-product.html">Product Details</a></li>

@@ -15,5 +15,11 @@ public partial class GuideStep
 
     public string? ImageUrl { get; set; }
 
+    public int? ModifyId { get; set; }
+
     public virtual RepairGuide? Guide { get; set; }
+
+    public virtual ICollection<GuideStep> InverseModify { get; set; } = new List<GuideStep>();
+
+    public virtual GuideStep? Modify { get; set; }
 }

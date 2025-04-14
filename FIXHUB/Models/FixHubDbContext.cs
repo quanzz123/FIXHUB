@@ -128,10 +128,15 @@ public partial class FixHubDbContext : DbContext
             entity.Property(e => e.StepId).HasColumnName("StepID");
             entity.Property(e => e.GuideId).HasColumnName("GuideID");
             entity.Property(e => e.ImageUrl).HasMaxLength(255);
+            entity.Property(e => e.ModifyId).HasColumnName("ModifyID");
 
             entity.HasOne(d => d.Guide).WithMany(p => p.GuideSteps)
                 .HasForeignKey(d => d.GuideId)
                 .HasConstraintName("FK__GuideStep__Guide__38996AB5");
+
+            entity.HasOne(d => d.Modify).WithMany(p => p.InverseModify)
+                .HasForeignKey(d => d.ModifyId)
+                .HasConstraintName("FK_GuideSteps_GuideSteps");
         });
 
         modelBuilder.Entity<Menu>(entity =>
@@ -254,17 +259,19 @@ public partial class FixHubDbContext : DbContext
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
+            entity.Property(e => e.ImgUrl).IsUnicode(false);
             entity.Property(e => e.Summary).HasMaxLength(500);
             entity.Property(e => e.Title).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+            entity.Property(e => e.UserId).HasColumnName("UserID");
 
             entity.HasOne(d => d.Category).WithMany(p => p.RepairGuides)
                 .HasForeignKey(d => d.CategoryId)
                 .HasConstraintName("FK__RepairGui__Categ__33D4B598");
 
-            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.RepairGuides)
-                .HasForeignKey(d => d.CreatedBy)
-                .HasConstraintName("FK__RepairGui__Creat__34C8D9D1");
+            entity.HasOne(d => d.User).WithMany(p => p.RepairGuides)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK_RepairGuides_Users");
         });
 
         modelBuilder.Entity<RequestAssignment>(entity =>

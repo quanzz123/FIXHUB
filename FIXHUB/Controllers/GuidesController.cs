@@ -29,6 +29,17 @@ namespace FIXHUB.Controllers
                 return NotFound();
             
             }
+            var listofguides = (from g in _context.RepairGuides
+                                where g.CategoryId == id
+                                select g).ToList();
+
+            var listofcate = (from l in _context.GuideCategories
+                              where l.ParentId == id
+                              select l).ToList();
+
+
+            ViewBag.GuidesCate = listofcate;
+            ViewBag.Guides = listofguides;
             return View(category);
         } 
     }

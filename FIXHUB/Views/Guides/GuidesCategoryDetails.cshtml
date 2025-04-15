@@ -1,4 +1,12 @@
 ﻿@model FIXHUB.Models.GuideCategory
+@{
+	
+    List<RepairGuide> listguides = ViewBag.Guides;
+    List<GuideCategory> liscate = ViewBag.GuidesCate;
+
+
+}
+
 <!-- ================ start banner area ================= -->
 <section class="blog-banner-area" id="blog">
 	<div class="container h-100">
@@ -39,15 +47,16 @@
 					<h3>@Model.CategoryName</h3>
 					@* <h2>$149.99</h2> *@
 					<ul class="list">
-						<li><a class="active" href="#"><span>Tác giả</span> : 1</a></li>
-						<li><a href="#"><span>Số Lượng</span> : 1</a></li>
+
+						<li><a class="active" href="#"><span><i class="bi bi-people-fill"></i> Tác giả</span> : 1</a></li>
+						<li><a href="#"><span><i class="bi bi-archive-fill"></i> Số Lượng</span> : 1</a></li>
 					</ul>
 					<p>
 						@Model.Description
 					</p>
 					<div class="product_count">
 						
-						<a class="button primary-btn" href="#">Thêm Hướng dẫn</a>
+						<a class="button primary-btn" href="#"><span><i class="bi bi-list-ol"></i></span> Thêm Hướng dẫn</a>
 					</div>
 					@* <div class="card_area d-flex align-items-center">
 						<a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
@@ -59,6 +68,37 @@
 	</div>
 </div>
 <!--================End Single Product Area =================-->
+<section class="section-margin calc-60px">
+	<div class="container">
+		<div class="section-intro pb-60px">
+			<p>Các danh mục liên quan</p>
+			<h2>@liscate.Count().ToString() <span class="section-intro__style">Danh mục</span></h2>
+		</div>
+		<div class="owl-carousel owl-theme" id="bestSellerCarousel">
+			@foreach (var l in liscate)
+			{
+				<div class="card text-center card-product">
+					<div class="card-product__img">
+						<img class="img-fluid" src="~/img/Guide_Category/@l.ImgUrl" alt="">
+						<ul class="card-product__imgOverlay">
+							<li><button><i class="ti-search"></i></button></li>
+							<li><button><i class="ti-shopping-cart"></i></button></li>
+							<li><button><i class="ti-heart"></i></button></li>
+						</ul>
+					</div>
+					<div class="card-body">
+						<p>Accessories</p>
+						<h4 class="card-product__title"><a asp-controller="Guides" asp-action="GuidesCategoryDetails" asp-route-id="@l.CategoryId">@l.CategoryName</a></h4>
+
+					</div>
+				</div>
+			}
+
+
+
+		</div>
+	</div>
+</section>
 <!--================Product Description Area =================-->
 <section class="product_description_area">
 	<div class="container">
@@ -406,6 +446,44 @@
 	</div>
 </section>
 <!--================End Product Description Area =================-->
+<main class="container py-5">
+      <h1 class="display-4 mb-4">Hướng dẫn</h1>
+
+      <section>
+        <h2 class="mb-4">Các kĩ thuật</h2>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+          @foreach(var list in listguides) {
+			  <div class="col">
+				<div class="card h-100 border-light shadow-sm">
+				  <div class="row g-0 h-100">
+					<div class="col-8">
+					  <div class="card-body">
+						<h5 class="card-title">
+						  <a href="#" class="text-decoration-none text-primary">
+							@list.Title
+						  </a>
+						</h5>
+					  </div>
+					</div>
+					<div class="col-4 d-flex align-items-center p-2">
+					  <img
+						src="~/img/Guides/@list.ImgUrl"
+						width={150}
+						height={150}
+						alt="Mac SSD and enclosure components"
+						class="img-fluid rounded"
+					  />
+					</div>
+				  </div>
+				</div>
+			</div>
+		  }
+          
+        </div>
+      </section>
+    </main> 
+
 <!--================ Start related Product area =================-->
 <section class="related-product-area section-margin--small mt-0">
 	<div class="container">

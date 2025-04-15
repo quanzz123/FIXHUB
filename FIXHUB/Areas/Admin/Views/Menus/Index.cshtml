@@ -1,0 +1,65 @@
+﻿@using FIXHUB.Models;
+@model IList<Menu>
+
+
+    
+    <h1>Danh sách menu</h1>
+    <!-- Table Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+
+            <div class="col-12">
+                <div class="bg-light rounded h-100 p-4">
+                    <h6 class="mb-4">
+                        <a type="button" class="btn btn-primary m-2" asp-area="Admin" asp-controller="Menus" asp-action="Create" >
+                            <i class="bi bi-plus-circle"></i>
+                            Thêm mới
+                        </a>
+                    </h6>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Tiêu đề</th>
+                                    <th scope="col">Đường dẫn</th>
+                                    <th scope="col">Mức</th>
+                                    <th scope="col">Vi trí</th>
+                                    <th scope="col">Menu cha</th>
+                                    <th scope="col">Trạng thái</th>
+                                    <th scope="col">Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach(var menu in Model) {
+
+                                        if(menu.IsActive == true) {
+
+                                        }
+                                        
+                                    <tr>
+                                        <th scope="row">@menu.MenuId</th>
+                                        <td>@menu.Title</td>
+                                        <td>@menu.Url</td>
+                                        <td>@menu.Levels</td>
+                                        <td>@menu.Positions</td>
+                                        <td>@menu.ParentId</td>
+                                        <td><input type="checkbox" disabled @(menu.IsActive ? "checked" : "") /> </td>
+                                        <td>
+                                            <a asp-area="Admin" asp-controller="Menus" asp-action="Edit" asp-route-id="@menu.MenuId" class="btn btn-warning m-2" ><i class="bi bi-pencil-fill"></i>Sửa </a>
+                                            <a asp-area="Admin" asp-controller="Menus" asp-action="Remove" asp-route-id="@menu.MenuId" class="btn btn-danger m-2"><i class="bi bi-eraser-fill"></i>Xoá</a>
+                                        </td>
+                                    </tr>
+                                }
+                               
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Table End -->
+   

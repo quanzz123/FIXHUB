@@ -26,5 +26,14 @@ namespace FIXHUB.Areas.Admin.Controllers
             }).ToList();
             return View(guiCate);
         }
+
+        public IActionResult RepairGuides()
+        {
+            var listofrepair = (from l in _context.RepairGuides
+                                select l).ToList();
+            return View(listofrepair);
+        }
+
+        
     }
 }

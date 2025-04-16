@@ -1,4 +1,5 @@
 ﻿using FIXHUB.Models;
+using FIXHUB.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FIXHUB.Controllers
@@ -41,6 +42,37 @@ namespace FIXHUB.Controllers
             ViewBag.GuidesCate = listofcate;
             ViewBag.Guides = listofguides;
             return View(category);
-        } 
+        }
+        
+        public IActionResult RepairDetails(int  id)
+        {
+            var repairdetails = (from step in _context.GuideSteps
+                                 join guide in _context.RepairGuides
+                                 on step.GuideId equals guide.GuideId
+                                 where step.GuideId == id
+                                 select new GuideStepDetails
+                                 {
+                                     StepId = step.StepId,
+                                     StepNumber = step.StepNumber ?? 0,
+                                     Instruction = step.Instruction,
+                                     ImagePath = step.ImageUrl,
+                                     GuideTitle = guide.Title,
+                                     GuideImgUrl= guide.ImgUrl,
+                                     GuideIntro = guide.Content,
+                                     
+                                 }).ToList(); 
+            return View(repairdetails);
+        }
+        public IActionResult EditStep(int id)
+        {
+            return View();
+        }
+
+        public ActionResult CreateRepair(int id) {
+
+
+            return View();
+        
+        }
     }
 }

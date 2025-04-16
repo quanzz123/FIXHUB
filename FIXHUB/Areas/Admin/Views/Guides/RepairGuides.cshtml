@@ -1,0 +1,64 @@
+﻿@using FIXHUB.Models;
+@model IList<RepairGuide>
+
+
+
+<h1>Danh sách danh mục hướng dẫn</h1>
+<!-- Table Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+
+        <div class="col-12">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">
+                    <a type="button" class="btn btn-primary m-2" asp-area="Admin" asp-controller="Guides" asp-action="Create">
+                        <i class="bi bi-plus-circle"></i>
+                        Thêm mới
+                    </a>
+                </h6>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Tiêu đề</th>
+                                <th scope="col">danh mục </th>
+                                <th scope="col">Ảnh</th>
+                                <th scope="col">Tóm tắt</th>
+                                
+                                <th scope="col">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var product in Model)
+                            {
+
+
+
+                                <tr>
+                                    <th scope="row">@product.GuideId</th>
+                                    <td><a asp-area="Admin" asp-controller="Guides" asp-action="Edit" asp-route-id="@product.GuideId">@product.Title</a></td>
+                                    <td>@product.CategoryId</td>
+                                    <td>
+                                        <img src="~/img/Guides/@product.ImgUrl" style="width:100px;height:100px" />
+                                    </td>
+                                    <td>@product.Summary</td>
+                                   
+                                    @* <td><input type="checkbox" disabled @(gui.IsActive ? "checked" : "") /> </td> *@
+                                    <td>
+                                        <a asp-area="Admin" asp-controller="Guides" asp-action="Edit" asp-route-id="@product.GuideId" class="btn btn-warning m-2"><i class="bi bi-pencil-fill"></i>Sửa </a>
+                                        <a asp-area="Admin" asp-controller="Guides" asp-action="Remove" asp-route-id="@product.GuideId" class="btn btn-danger m-2"><i class="bi bi-eraser-fill"></i>Xoá</a>
+                                    </td>
+                                </tr>
+                            }
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Table End -->

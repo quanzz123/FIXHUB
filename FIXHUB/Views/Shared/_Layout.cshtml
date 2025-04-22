@@ -37,11 +37,46 @@
                     <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
 
                         @await Component.InvokeAsync("MenuTopView")
+                        @* <ul class="nav-shop"> *@
+                        @*     <li class="nav-item"><button><i class="ti-search"></i></button></li> *@
+                        @*     <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">3</span></button> </li> *@
+                        @*     <li class="nav-item"><a class="button button-header" href="#">Đăng nhập</a></li> *@
+                        @* </ul> *@
                         <ul class="nav-shop">
-                            <li class="nav-item"><button><i class="ti-search"></i></button></li>
-                            <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">3</span></button> </li>
-                            <li class="nav-item"><a class="button button-header" href="#">Buy Now</a></li>
+                            <li class="nav-item">
+                                <button><i class="ti-search"></i></button>
+                            </li>
+
+                            <li class="nav-item">
+                                <button>
+                                    <i class="ti-shopping-cart"></i>
+                                    <span class="nav-shop__circle">3</span>
+                                </button>
+                            </li>
+
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item">
+                                    <a class="button button-header" href="@Url.Action("Login", "Accounts")">Đăng nhập</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="button button-header dropdown-toggle" data-bs-toggle="dropdown" href="#">
+                                        @User.Identity.Name
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <li><a class="dropdown-item" href="@Url.Action("Index", "Dashboard", new { area = "Admin" })">Trang quản trị</a></li>
+                                        }
+                                        <li><a class="dropdown-item" href="@Url.Action("Logout", "Accounts")">Đăng xuất</a></li>
+                                    </ul>
+                                </li>
+                            }
                         </ul>
+
                     </div>
                 </div>
             </nav>

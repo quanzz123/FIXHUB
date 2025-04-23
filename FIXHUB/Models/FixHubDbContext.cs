@@ -66,7 +66,6 @@ public partial class FixHubDbContext : DbContext
     public virtual DbSet<UserRole> UserRoles { get; set; }
 
     
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<ForumComment>(entity =>
@@ -129,6 +128,7 @@ public partial class FixHubDbContext : DbContext
             entity.Property(e => e.GuideId).HasColumnName("GuideID");
             entity.Property(e => e.ImageUrl).HasMaxLength(255);
             entity.Property(e => e.ModifyId).HasColumnName("ModifyID");
+            entity.Property(e => e.UserId).HasColumnName("UserID");
 
             entity.HasOne(d => d.Guide).WithMany(p => p.GuideSteps)
                 .HasForeignKey(d => d.GuideId)
@@ -137,6 +137,10 @@ public partial class FixHubDbContext : DbContext
             entity.HasOne(d => d.Modify).WithMany(p => p.InverseModify)
                 .HasForeignKey(d => d.ModifyId)
                 .HasConstraintName("FK_GuideSteps_GuideSteps");
+
+            entity.HasOne(d => d.User).WithMany(p => p.GuideSteps)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK_GuideSteps_Users");
         });
 
         modelBuilder.Entity<Menu>(entity =>
@@ -247,7 +251,6 @@ public partial class FixHubDbContext : DbContext
 
             entity.Property(e => e.ProductCategoryId).HasColumnName("ProductCategoryID");
             entity.Property(e => e.CategoryName).HasMaxLength(100);
-            entity.Property(e => e.Description).HasMaxLength(255);
         });
 
         modelBuilder.Entity<RepairGuide>(entity =>

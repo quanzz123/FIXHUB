@@ -67,14 +67,17 @@
                                         @User.Identity.Name
                                     </a>
                                     <ul class="dropdown-menu">
-                                        @if (User.IsInRole("Admin"))
-                                        {
-                                            <li><a class="dropdown-item" href="@Url.Action("Index", "Dashboard", new { area = "Admin" })">Trang quản trị</a></li>
-                                        }
-                                        <li><a class="dropdown-item" href="@Url.Action("Logout", "Accounts")">Đăng xuất</a></li>
+                                        @* @if (User.IsInRole("Admin")) *@
+                                        @* { *@
+                                        @*     <li><a class="dropdown-item" href="@Url.Action("Index", "Dashboard", new { area = "Admin" })">Trang quản trị</a></li> *@
+                                        @* } *@
+                                        <li><a class="dropdown-item" style="margin-left:40px" href="#">Cá nhân</a></li>
+
+                                        <li><a class="dropdown-item"  href="@Url.Action("Logout", "Accounts")">Đăng xuất</a></li>
                                     </ul>
                                 </li>
                             }
+                            
                         </ul>
 
                     </div>

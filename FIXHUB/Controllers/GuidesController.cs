@@ -1,5 +1,6 @@
 ﻿using FIXHUB.Models;
 using FIXHUB.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FIXHUB.Controllers
@@ -67,12 +68,13 @@ namespace FIXHUB.Controllers
         {
             return View();
         }
-
-        public ActionResult CreateRepair(int id) {
+        
+        public IActionResult CreateRepair(int id) {
 
 
             return View();
         
         }
+        
     }
 }

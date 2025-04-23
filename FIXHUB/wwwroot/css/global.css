@@ -242,3 +242,10 @@ a {
 
 
 /*Create repair pages*/
+
+
+/* Áp dụng style chỉ cho thẻ button-header ngoài nav, không trong dropdown */
+.nav-shop > .nav-item > .button-header {
+    text-align: center;
+    display: inline-block;
+}

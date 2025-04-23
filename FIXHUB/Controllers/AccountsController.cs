@@ -40,6 +40,7 @@ namespace FIXHUB.Controllers
                            where u.UserName == model.UserName && u.PasswordHash == model.Password
                            select new
                            {
+                               u.UserId,
                                u.UserName,
                                u.Email,
                                u.PasswordHash,
@@ -55,7 +56,8 @@ namespace FIXHUB.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, account.UserName),
-                new Claim(ClaimTypes.Role, account.RoleName)
+                new Claim(ClaimTypes.Role, account.RoleName),
+                new Claim("UserId",account.UserId.ToString())
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

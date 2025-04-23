@@ -21,6 +21,8 @@ public partial class User
 
     public virtual ICollection<ForumPost> ForumPosts { get; set; } = new List<ForumPost>();
 
+    public virtual ICollection<GuideStep> GuideSteps { get; set; } = new List<GuideStep>();
+
     public virtual ICollection<News> News { get; set; } = new List<News>();
 
     public virtual ICollection<NewsComment> NewsComments { get; set; } = new List<NewsComment>();

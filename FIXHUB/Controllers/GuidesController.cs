@@ -68,13 +68,58 @@ namespace FIXHUB.Controllers
         {
             return View();
         }
-        
+        [HttpGet]
+        [Authorize]
         public IActionResult CreateRepair(int id) {
-
+            ViewBag.Id = id;
 
             return View();
         
         }
-        
+        [HttpPost]
+        [Authorize]
+
+        public async Task<IActionResult> CreateRepair(RepairGuide repair)
+        {
+            int userID = int.Parse(User.FindFirst("UserId")?.Value ?? "0");
+            var user = (from u in _context.Users
+                        where u.UserId == userID
+                        select u).FirstOrDefault();
+            var categoryid = ViewBag.Id;
+            if (ModelState.IsValid)
+            {
+                // Xử lý ảnh nếu có
+                if (repair.ImageFile != null)
+                {
+                    var fileName = Path.GetFileNameWithoutExtension(repair.ImageFile.FileName);
+                    var extension = Path.GetExtension(repair.ImageFile.FileName);
+                    string newFileName = $"{fileName}_{DateTime.Now.Ticks}{extension}";
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/Guides", newFileName);
+
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await repair.ImageFile.CopyToAsync(stream);
+                    }
+
+                    repair.ImgUrl = "/images/Guides/" + newFileName;
+                }
+                repair.CategoryId = categoryid;
+                repair.CreatedBy = user.UserName;
+                repair.CreatedAt = DateTime.Now;
+
+                //
+
+                _context.RepairGuides.Add(repair);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Createstep", new {guideid = repair.GuideId});
+
+
+            }
+          
+            return View(repair);
+
+        }
+
     }
 }

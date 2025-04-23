@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FIXHUB.Models;
 
@@ -15,7 +16,7 @@ public partial class RepairGuide
 
     public string? Content { get; set; }
 
-    public int? CreatedBy { get; set; }
+    public string? CreatedBy { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 
@@ -24,6 +25,9 @@ public partial class RepairGuide
     public int? UserId { get; set; }
 
     public string? ImgUrl { get; set; }
+
+    [NotMapped]
+    public IFormFile? ImageFile { get; set; }
 
     public virtual GuideCategory? Category { get; set; }
 

@@ -1,4 +1,5 @@
-﻿<div class="container editor-container">
+﻿@model FIXHUB.Models.RepairGuide
+<div class="container editor-container">
     <div class="row">
         <div class="col-12">
             <h1 class="mt-4 mb-4 ps-3">Hướng dẫn về </h1>
@@ -22,27 +23,34 @@
                 <div class="tab-pane fade show active" id="introduction" role="tabpanel" aria-labelledby="introduction-tab">
                     <div class="step-editor">
                         <h2>Giới thiệu chung</h2>
-                        <div class="mb-3">
-                            <label for="guideTitle" class="form-label">Tiêu đề hường dẫn</label>
-                            <input type="text" class="form-control" id="guideTitle" value="Mac SSD Replacement Guide">
-                        </div>
-                        <div class="mb-3">
-                            <label for="guideSummary" class="form-label">Tóm tắt</label>
-                            <textarea class="form-control" id="guideSummary" rows="3">Learn how to replace the SSD in your Mac to upgrade storage or fix a failing drive.</textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="guideDifficulty" class="form-label">Độ khó</label>
-                            <select class="form-select" id="guideDifficulty">
-                                <option>Easy</option>
-                                <option selected>Moderate</option>
-                                <option>Difficult</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="guideTime" class="form-label">Thời gian</label>
-                            <input type="text" class="form-control" id="guideTime" value="15-30 minutes">
-                        </div>
-                        <a class="btn btn-primary">Lưu lại</a>
+                        <form asp-action="CreateRepair" method="post" enctype="multipart/form-data">
+
+                            <div class="mb-3">
+                                <label asp-for="Title" for="guideTitle" class="form-label">Tiêu đề hường dẫn</label>
+                                <input asp-for="Title" type="text" class="form-control" id="guideTitle" >
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="Summary" for="guideSummary" class="form-label">Tóm tắt</label>
+                                <textarea asp-for="Summary" class="form-control" id="guideSummary" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label  class="form-label">Hình ảnh</label>
+                                <input type="file" name="ImageFile" class="form-control" />
+                            </div>
+                            @* <div class="mb-3"> *@
+                            @*     <label for="guideDifficulty" class="form-label">Độ khó</label> *@
+                            @*     <select class="form-select" id="guideDifficulty"> *@
+                            @*         <option>Easy</option> *@
+                            @*         <option selected>Moderate</option> *@
+                            @*         <option>Difficult</option> *@
+                            @*     </select> *@
+                            @* </div> *@
+                            @* <div class="mb-3"> *@
+                            @*     <label for="guideTime" class="form-label">Thời gian</label> *@
+                            @*     <input type="text" class="form-control" id="guideTime" value="15-30 minutes"> *@
+                            @* </div> *@
+                            <button type="submit" class="btn btn-primary">Lưu lại</button>
+                        </form>
                     </div>
                 </div>
 

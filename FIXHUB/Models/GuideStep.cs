@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FIXHUB.Models;
 
@@ -18,6 +19,9 @@ public partial class GuideStep
     public int? ModifyId { get; set; }
 
     public int? UserId { get; set; }
+
+    [NotMapped]
+    public IFormFile? ImageFile { get; set; }
 
     public virtual RepairGuide? Guide { get; set; }
 

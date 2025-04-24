@@ -1,62 +1,56 @@
-﻿@model FIXHUB.Models.RepairGuide
+﻿@model FIXHUB.Models.GuideStep;
+@{
+    var title = ViewBag.GuidesTitle;
+}
 <div class="container editor-container">
     <div class="row">
         <div class="col-12">
-            <h1 class="mt-4 mb-4 ps-3">Hướng dẫn về </h1>
+            <h1 class="mt-4 mb-4 ps-3">@title</h1>
 
             <!-- Navigation Tabs -->
             <ul class="nav nav-tabs" id="editorTabs" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="introduction-tab" data-bs-toggle="tab" data-bs-target="#introduction" type="button" role="tab">Giới thiệu chung</button>
+                    <button class="nav-link" id="introduction-tab" data-bs-toggle="tab" data-bs-target="#introduction" type="button" role="tab">Introduction</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab" disabled>Chi tiết</button>
+                    <button class="nav-link" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab">Details</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link " id="steps-tab" data-bs-toggle="tab" data-bs-target="#steps" type="button" role="tab" disabled>Các bước hướng dẫn</button>
+                    <button class="nav-link active" id="steps-tab" data-bs-toggle="tab" data-bs-target="#steps" type="button" role="tab">Guide Steps</button>
                 </li>
             </ul>
 
             <!-- Tab Content -->
             <div class="tab-content" id="editorTabsContent">
                 <!-- Introduction Tab -->
-                <div class="tab-pane fade show active" id="introduction" role="tabpanel" aria-labelledby="introduction-tab">
-                    <div class="step-editor">
-                        <h2>Giới thiệu chung</h2>
-                        <form asp-action="CreateRepair" method="post" enctype="multipart/form-data">
-                            <input type="hidden" asp-for="CategoryId" value="@ViewBag.CategoryId" />
-
-                            <div class="mb-3">
-                                <label asp-for="Title" for="guideTitle" class="form-label">Tiêu đề hường dẫn</label>
-                                <input asp-for="Title" type="text" class="form-control" id="guideTitle" >
-                            </div>
-                            <div class="mb-3">
-                                <label asp-for="Summary" for="guideSummary" class="form-label">Tóm tắt</label>
-                                <textarea asp-for="Summary" class="form-control" id="guideSummary" rows="3"></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label  class="form-label">Hình ảnh</label>
-                                <input type="file" name="ImageFile" class="form-control" />
-                            </div>
-                            @* <div class="mb-3"> *@
-                            @*     <label for="guideDifficulty" class="form-label">Độ khó</label> *@
-                            @*     <select class="form-select" id="guideDifficulty"> *@
-                            @*         <option>Easy</option> *@
-                            @*         <option selected>Moderate</option> *@
-                            @*         <option>Difficult</option> *@
-                            @*     </select> *@
-                            @* </div> *@
-                            @* <div class="mb-3"> *@
-                            @*     <label for="guideTime" class="form-label">Thời gian</label> *@
-                            @*     <input type="text" class="form-control" id="guideTime" value="15-30 minutes"> *@
-                            @* </div> *@
-                            <button type="submit" class="btn btn-primary">Lưu lại</button>
-                        </form>
+                <div class="tab-pane fade" id="introduction" role="tabpanel" aria-labelledby="introduction-tab">
+                    <div class="p-4">
+                        <h3>Introduction</h3>
+                        <div class="mb-3">
+                            <label for="introTitle" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="introTitle" value="How Install a Mac SSD into an OWC Envoy Pro Enclosure">
+                        </div>
+                        <div class="mb-3">
+                            <label for="introDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="introDescription" rows="4">Learn how to install a Mac SSD into an OWC Envoy Pro Enclosure to repurpose your old SSD as an external drive.</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="introDifficulty" class="form-label">Difficulty</label>
+                            <select class="form-select" id="introDifficulty">
+                                <option>Easy</option>
+                                <option selected>Moderate</option>
+                                <option>Difficult</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="introTime" class="form-label">Time Required</label>
+                            <input type="text" class="form-control" id="introTime" value="15-30 minutes">
+                        </div>
                     </div>
                 </div>
 
                 <!-- Details Tab -->
-                <div class="tab-pane fade" id="details" role="tabpanel" aria-labelledby="details-tab" >
+                <div class="tab-pane fade" id="details" role="tabpanel" aria-labelledby="details-tab">
                     <div class="p-4">
                         <h3>Details</h3>
                         <div class="mb-3">
@@ -76,54 +70,59 @@
                 </div>
 
                 <!-- Steps Tab -->
-                <div class="tab-pane fade " id="steps" role="tabpanel" aria-labelledby="steps-tab" tabindex="-1" aria-disabled="true">
+                <div class="tab-pane fade show active" id="steps" role="tabpanel" aria-labelledby="steps-tab">
                     <div class="row">
+                      
                         <!-- Left Side: Step Editor -->
                         <div class="col-md-8">
                             <div class="step-editor">
                                 <h3 id="stepTitle">Editing Step 1 — Add a title</h3>
-                                <input type="text" class="form-control mt-2 mb-3" id="stepTitleInput" placeholder="Enter step title">
+                                <form sp-action="Createstep" method="post" enctype="multipart/form-data">
 
-                                <div class="d-flex align-items-center mb-3">
-                                    <div class="me-2">Step Type:</div>
-                                    <button class="btn step-type-btn active me-2" id="imageTypeBtn">
-                                        <i class="fas fa-image me-1"></i> Image
-                                    </button>
-                                    <button class="btn step-type-btn" id="mediaTypeBtn">
-                                        <i class="fas fa-film me-1"></i> Media
-                                    </button>
-                                </div>
+                                    @* <input asp-for="Instruction" type="text" class="form-control mt-2 mb-3" id="stepTitleInput" placeholder="Enter step title"> *@
+                                    <input type="hidden" asp-for="GuideId" value="@ViewBag.GuideId" />
 
-                                <div class="image-preview mb-3" id="imagePreview">
-                                    <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-DtklckhUywDG2wMdZMDhbeKovAFjpC.png" alt="Step preview" id="previewImage">
-                                </div>
-
-                                <label class="custom-file-upload w-100">
-                                    <input type="file" class="file-input" id="imageUpload" accept="image/*">
-                                    <i class="fas fa-upload me-2"></i> Upload Image
-                                </label>
-
-                                <div class="thumbnail-container">
-                                    <div class="mini-thumbnail">
-                                        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-DtklckhUywDG2wMdZMDhbeKovAFjpC.png" alt="Thumbnail 1">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="me-2">Step Type:</div>
+                                        <button class="btn step-type-btn active me-2" id="imageTypeBtn">
+                                            <i class="fas fa-image me-1"></i> Image
+                                        </button>
+                                        <button class="btn step-type-btn" id="mediaTypeBtn">
+                                            <i class="fas fa-film me-1"></i> Media
+                                        </button>
                                     </div>
-                                    <div class="mini-thumbnail">
-                                        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-DtklckhUywDG2wMdZMDhbeKovAFjpC.png" alt="Thumbnail 2">
-                                    </div>
-                                    <div class="mini-thumbnail">
-                                        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-DtklckhUywDG2wMdZMDhbeKovAFjpC.png" alt="Thumbnail 3">
-                                    </div>
-                                </div>
-                                <div class="drag-text">Drag to rearrange</div>
 
-                                <div class="content-editor">
-                                    <div class="mb-3">
-                                        <label for="stepContent" class="form-label">Step Instructions</label>
-                                        <textarea class="form-control" id="stepContent" rows="4">To open the enclosure, pull the top half down toward the wedged end and lift it away from the bottom half.</textarea>
+                                    <div class="image-preview mb-3" id="imagePreview">
+                                        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-DtklckhUywDG2wMdZMDhbeKovAFjpC.png" alt="Step preview" id="previewImage">
                                     </div>
-                                </div>
 
-                                <button class="btn btn-primary" id="saveStepBtn">Save</button>
+                                    <label class="custom-file-upload w-100">
+                                        <input name="ImageFile" type="file" class="file-input" id="imageUpload" accept="image/*">
+                                        <i class="fas fa-upload me-2"></i> Upload Image
+                                    </label>
+
+                                    <div class="thumbnail-container">
+                                        <div class="mini-thumbnail">
+                                            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-DtklckhUywDG2wMdZMDhbeKovAFjpC.png" alt="Thumbnail 1">
+                                        </div>
+                                        <div class="mini-thumbnail">
+                                            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-DtklckhUywDG2wMdZMDhbeKovAFjpC.png" alt="Thumbnail 2">
+                                        </div>
+                                        <div class="mini-thumbnail">
+                                            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-DtklckhUywDG2wMdZMDhbeKovAFjpC.png" alt="Thumbnail 3">
+                                        </div>
+                                    </div>
+                                    <div class="drag-text">Drag to rearrange</div>
+
+                                    <div class="content-editor">
+                                        <div class="mb-3">
+                                            <label asp-for="Instruction" for="stepContent" class="form-label">Step Instructions</label>
+                                            <textarea asp-for="Instruction" class="form-control" id="stepContent" rows="4"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary" id="saveStepBtn">Save</button>
+                                </form>
 
                                 <div class="d-flex justify-content-between mt-4">
                                     <button class="btn btn-outline-danger" id="deleteStepBtn">

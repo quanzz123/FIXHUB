@@ -164,7 +164,7 @@ namespace FIXHUB.Controllers
 
                     step.ImageUrl = "/img/Guides" + newFileName;
                 }
-                step.UserId = userID;
+                
                 _context.GuideSteps.Add(step);
                 await _context.SaveChangesAsync();
 

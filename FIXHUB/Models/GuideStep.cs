@@ -18,16 +18,14 @@ public partial class GuideStep
 
     public int? ModifyId { get; set; }
 
-    public int? UserId { get; set; }
-
     [NotMapped]
     public IFormFile? ImageFile { get; set; }
 
     public virtual RepairGuide? Guide { get; set; }
 
+    public virtual ICollection<HistoryStep> HistorySteps { get; set; } = new List<HistoryStep>();
+
     public virtual ICollection<GuideStep> InverseModify { get; set; } = new List<GuideStep>();
 
     public virtual GuideStep? Modify { get; set; }
-
-    public virtual User? User { get; set; }
 }

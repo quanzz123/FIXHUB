@@ -23,6 +23,8 @@ public partial class FixHubDbContext : DbContext
 
     public virtual DbSet<GuideStep> GuideSteps { get; set; }
 
+    public virtual DbSet<HistoryStep> HistorySteps { get; set; }
+
     public virtual DbSet<Menu> Menus { get; set; }
 
     public virtual DbSet<News> News { get; set; }
@@ -65,7 +67,10 @@ public partial class FixHubDbContext : DbContext
 
     public virtual DbSet<UserRole> UserRoles { get; set; }
 
-    
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("data source= NEYAQUAN\\HONGQUAN; initial catalog=FixHubDB; integrated security=True; TrustServerCertificate=True;");
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<ForumComment>(entity =>
@@ -128,7 +133,6 @@ public partial class FixHubDbContext : DbContext
             entity.Property(e => e.GuideId).HasColumnName("GuideID");
             entity.Property(e => e.ImageUrl).HasMaxLength(255);
             entity.Property(e => e.ModifyId).HasColumnName("ModifyID");
-            entity.Property(e => e.UserId).HasColumnName("UserID");
 
             entity.HasOne(d => d.Guide).WithMany(p => p.GuideSteps)
                 .HasForeignKey(d => d.GuideId)
@@ -137,10 +141,27 @@ public partial class FixHubDbContext : DbContext
             entity.HasOne(d => d.Modify).WithMany(p => p.InverseModify)
                 .HasForeignKey(d => d.ModifyId)
                 .HasConstraintName("FK_GuideSteps_GuideSteps");
+        });
 
-            entity.HasOne(d => d.User).WithMany(p => p.GuideSteps)
+        modelBuilder.Entity<HistoryStep>(entity =>
+        {
+            entity.ToTable("HistoryStep");
+
+            entity.Property(e => e.HistoryStepId)
+                .ValueGeneratedNever()
+                .HasColumnName("HistoryStepID");
+            entity.Property(e => e.ImgUrl).HasMaxLength(250);
+            entity.Property(e => e.StepId).HasColumnName("StepID");
+            entity.Property(e => e.Title).HasMaxLength(250);
+            entity.Property(e => e.UserId).HasColumnName("UserID");
+
+            entity.HasOne(d => d.Step).WithMany(p => p.HistorySteps)
+                .HasForeignKey(d => d.StepId)
+                .HasConstraintName("FK_HistoryStep_GuideSteps");
+
+            entity.HasOne(d => d.User).WithMany(p => p.HistorySteps)
                 .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK_GuideSteps_Users");
+                .HasConstraintName("FK_HistoryStep_Users");
         });
 
         modelBuilder.Entity<Menu>(entity =>
@@ -262,6 +283,7 @@ public partial class FixHubDbContext : DbContext
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
+            entity.Property(e => e.CreatedBy).HasMaxLength(50);
             entity.Property(e => e.ImgUrl).IsUnicode(false);
             entity.Property(e => e.Summary).HasMaxLength(500);
             entity.Property(e => e.Title).HasMaxLength(255);

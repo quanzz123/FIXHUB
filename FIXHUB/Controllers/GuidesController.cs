@@ -78,7 +78,7 @@ namespace FIXHUB.Controllers
         }
         [HttpPost]
         [Authorize]
-
+       
         public async Task<IActionResult> CreateRepair(RepairGuide repair)
         {
             int userID = int.Parse(User.FindFirst("UserId")?.Value ?? "0");
@@ -101,7 +101,7 @@ namespace FIXHUB.Controllers
                         await repair.ImageFile.CopyToAsync(stream);
                     }
 
-                    repair.ImgUrl = "~/img/Guides/" + newFileName;
+                    repair.ImgUrl = "/img/Guides/" + newFileName;
                 }
                 //repair.CategoryId = categoryid;
                 repair.UserId= userID;
@@ -149,7 +149,7 @@ namespace FIXHUB.Controllers
 
                 step.StepNumber = existingSteps.Count > 0 ? existingSteps.First().StepNumber + 1 : 1;
 
-                // Xử lý ảnh như trước
+                
                 if (step.ImageFile != null)
                 {
                     var fileName = Path.GetFileNameWithoutExtension(step.ImageFile.FileName);
@@ -162,7 +162,7 @@ namespace FIXHUB.Controllers
                         await step.ImageFile.CopyToAsync(stream);
                     }
 
-                    step.ImageUrl = "~/img/steps/Guides" + newFileName;
+                    step.ImageUrl = "/img/Guides" + newFileName;
                 }
                 step.UserId = userID;
                 _context.GuideSteps.Add(step);
@@ -177,3 +177,4 @@ namespace FIXHUB.Controllers
 
     }
 }
+

@@ -20,6 +20,7 @@
           rel="stylesheet"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
           crossOrigin="anonymous" />
+   
 </head>
 <body>
     <!--================ Start Header Menu Area =================-->
@@ -71,7 +72,7 @@
                                         @* { *@
                                         @*     <li><a class="dropdown-item" href="@Url.Action("Index", "Dashboard", new { area = "Admin" })">Trang quản trị</a></li> *@
                                         @* } *@
-                                        <li><a class="dropdown-item" style="margin-left:40px" href="#">Cá nhân</a></li>
+                                        <li><a asp-action="Index" asp-controller="Profile" class="dropdown-item" style="margin-left:40px" >Cá nhân</a></li>
 
                                         <li><a class="dropdown-item"  href="@Url.Action("Logout", "Accounts")">Đăng xuất</a></li>
                                     </ul>

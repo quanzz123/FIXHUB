@@ -11,9 +11,12 @@ namespace FIXHUB.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int? stepid)
         {
-            return View();
+            var historystep = (from h in _context.HistorySteps
+                               where h.StepId == stepid
+                               select h).ToList();
+            return View(historystep);
         }
     }
 }

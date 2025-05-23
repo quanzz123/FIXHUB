@@ -2,6 +2,7 @@
 using FIXHUB.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.WebSockets;
 
 namespace FIXHUB.Controllers
 {
@@ -44,8 +45,8 @@ namespace FIXHUB.Controllers
             ViewBag.Guides = listofguides;
             return View(category);
         }
-        
-        public IActionResult RepairDetails(int  id)
+
+        public IActionResult RepairDetails(int id)
         {
             var repairdetails = (from step in _context.GuideSteps
                                  join guide in _context.RepairGuides
@@ -58,16 +59,64 @@ namespace FIXHUB.Controllers
                                      Instruction = step.Instruction,
                                      ImagePath = step.ImageUrl,
                                      GuideTitle = guide.Title,
-                                     GuideImgUrl= guide.ImgUrl,
+                                     GuideImgUrl = guide.ImgUrl,
                                      GuideIntro = guide.Content,
-                                     
-                                 }).ToList(); 
+
+                                 }).ToList();
+            //ViewBag["id"] = id;
             return View(repairdetails);
         }
+        [HttpGet]
+        [Authorize]
         public IActionResult EditStep(int id)
         {
-            return View();
+            var step = (from s in _context.GuideSteps
+                        where s.StepId == id
+                        select s).FirstOrDefault();
+            if(step == null)
+            {
+                return NotFound();
+            }
+            var model = new HistoryStep
+            {
+                StepId = step.StepId
+            };
+            return View(model);
         }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> EditStep(HistoryStep historyStep)
+        {
+            int userID = int.Parse(User.FindFirst("UserId")?.Value ?? "0");
+            var user = (from u in _context.Users
+                        where u.UserId == userID
+                        select u).FirstOrDefault();
+          
+            if(ModelState.IsValid)
+            {
+                if(historyStep.ImageFile != null)
+                {
+                    var fileName = Path.GetFileNameWithoutExtension(historyStep.ImageFile.FileName);
+                    var extenstion = Path.GetExtension(historyStep.ImageFile.FileName);
+                    string newFileName = $"{fileName}_{DateTime.Now.Ticks}{extenstion}";
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/HistoryStep",newFileName);
+                    
+                    using(var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await historyStep.ImageFile.CopyToAsync(stream);
+                    }
+                    historyStep.ImgUrl = "/img/HistoryStep" + newFileName;
+                }
+                historyStep.UserId = userID;
+               
+                _context.HistorySteps.Add(historyStep);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("RepairDetails");
+            }
+             return View(historyStep);
+        }
+        
         [HttpGet]
         [Authorize]
         public IActionResult CreateRepair(int id) {

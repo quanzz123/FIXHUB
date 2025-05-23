@@ -25,6 +25,8 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="wwwroot\img\HistoryStep\" />
+    <Folder Include="wwwroot\img\Avt\" />
   </ItemGroup>
 
 </Project>

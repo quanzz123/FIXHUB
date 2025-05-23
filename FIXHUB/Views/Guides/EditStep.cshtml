@@ -1,4 +1,5 @@
-﻿    <div class="container editor-container">
+﻿@model FIXHUB.Models.HistoryStep;    
+<div class="container editor-container">
         <div class="row">
             <div class="col-12">
                 <h1 class="mt-4 mb-4 ps-3">How Install a Mac SSD into an OWC Envoy Pro Enclosure</h1>
@@ -71,49 +72,52 @@
                             <!-- Left Side: Step Editor -->
                             <div class="col-md-8">
                                 <div class="step-editor">
-                                    <h3 id="stepTitle">Editing Step 1 — Add a title</h3>
-                                    <input type="text" class="form-control mt-2 mb-3" id="stepTitleInput" placeholder="Enter step title">
+                                    <form asp-action="EditStep" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" name="StepId" value="@Model.StepId" />
+                                        <h3 id="stepTitle">Editing Step 1 — Add a title</h3>
+                                        <input type="text" asp-for="Title" class="form-control mt-2 mb-3" id="stepTitleInput" placeholder="Enter step title">
 
-                                    <div class="d-flex align-items-center mb-3">
-                                        <div class="me-2">Step Type:</div>
-                                        <button class="btn step-type-btn active me-2" id="imageTypeBtn">
-                                            <i class="fas fa-image me-1"></i> Image
-                                        </button>
-                                        <button class="btn step-type-btn" id="mediaTypeBtn">
-                                            <i class="fas fa-film me-1"></i> Media
-                                        </button>
-                                    </div>
-
-                                    <div class="image-preview mb-3" id="imagePreview">
-                                        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-DtklckhUywDG2wMdZMDhbeKovAFjpC.png" alt="Step preview" id="previewImage">
-                                    </div>
-
-                                    <label class="custom-file-upload w-100">
-                                        <input type="file" class="file-input" id="imageUpload" accept="image/*">
-                                        <i class="fas fa-upload me-2"></i> Upload Image
-                                    </label>
-
-                                    <div class="thumbnail-container">
-                                        <div class="mini-thumbnail">
-                                            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-DtklckhUywDG2wMdZMDhbeKovAFjpC.png" alt="Thumbnail 1">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <div class="me-2">Step Type:</div>
+                                            <button class="btn step-type-btn active me-2" id="imageTypeBtn">
+                                                <i class="fas fa-image me-1"></i> Image
+                                            </button>
+                                            <button class="btn step-type-btn" id="mediaTypeBtn">
+                                                <i class="fas fa-film me-1"></i> Media
+                                            </button>
                                         </div>
-                                        <div class="mini-thumbnail">
-                                            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-DtklckhUywDG2wMdZMDhbeKovAFjpC.png" alt="Thumbnail 2">
-                                        </div>
-                                        <div class="mini-thumbnail">
-                                            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-DtklckhUywDG2wMdZMDhbeKovAFjpC.png" alt="Thumbnail 3">
-                                        </div>
-                                    </div>
-                                    <div class="drag-text">Drag to rearrange</div>
 
-                                    <div class="content-editor">
-                                        <div class="mb-3">
-                                            <label for="stepContent" class="form-label">Step Instructions</label>
-                                            <textarea class="form-control" id="stepContent" rows="4">To open the enclosure, pull the top half down toward the wedged end and lift it away from the bottom half.</textarea>
+                                        <div class="image-preview mb-3" id="imagePreview">
+                                            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-DtklckhUywDG2wMdZMDhbeKovAFjpC.png" alt="Step preview" id="previewImage">
                                         </div>
-                                    </div>
 
-                                    <button class="btn btn-primary" id="saveStepBtn">Save</button>
+                                        <label class="custom-file-upload w-100">
+                                        <input name="ImageFile" type="file" class="file-input" id="imageUpload" accept="image/*">
+                                            <i class="fas fa-upload me-2"></i> Upload Image
+                                        </label>
+
+                                        <div class="thumbnail-container">
+                                            <div class="mini-thumbnail">
+                                                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-DtklckhUywDG2wMdZMDhbeKovAFjpC.png" alt="Thumbnail 1">
+                                            </div>
+                                            <div class="mini-thumbnail">
+                                                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-DtklckhUywDG2wMdZMDhbeKovAFjpC.png" alt="Thumbnail 2">
+                                            </div>
+                                            <div class="mini-thumbnail">
+                                                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-DtklckhUywDG2wMdZMDhbeKovAFjpC.png" alt="Thumbnail 3">
+                                            </div>
+                                        </div>
+                                        <div class="drag-text">Drag to rearrange</div>
+
+                                        <div class="content-editor">
+                                            <div class="mb-3">
+                                                <label asp-for="Details" for="stepContent" class="form-label">Step Instructions</label>
+                                                <textarea asp-for="Details" class="form-control" id="stepContent" rows="4">To open the enclosure, pull the top half down toward the wedged end and lift it away from the bottom half.</textarea>
+                                            </div>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary" id="saveStepBtn">Save</button>
+                                    </form>
 
                                     <div class="d-flex justify-content-between mt-4">
                                         <button class="btn btn-outline-danger" id="deleteStepBtn">

@@ -20,7 +20,7 @@
           rel="stylesheet"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
           crossOrigin="anonymous" />
-   
+    @RenderSection("Styles", required: false)
 </head>
 <body>
     <!--================ Start Header Menu Area =================-->
@@ -38,11 +38,7 @@
                     <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
 
                         @await Component.InvokeAsync("MenuTopView")
-                        @* <ul class="nav-shop"> *@
-                        @*     <li class="nav-item"><button><i class="ti-search"></i></button></li> *@
-                        @*     <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">3</span></button> </li> *@
-                        @*     <li class="nav-item"><a class="button button-header" href="#">Đăng nhập</a></li> *@
-                        @* </ul> *@
+                       
                         <ul class="nav-shop">
                             <li class="nav-item">
                                 <button><i class="ti-search"></i></button>
@@ -194,5 +190,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
             crossOrigin="anonymous"></script>
+    @RenderSection("scripts", required: false)
 </body>
 </html>

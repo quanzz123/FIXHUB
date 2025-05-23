@@ -1,0 +1,69 @@
+﻿@model IEnumerable<FIXHUB.ViewModels.TechnicianVM>
+
+@foreach(var tech in Model) {
+ <!-- Technician 1 -->
+<div class="col-lg-4 col-md-6">
+    <div class="card technician-card">
+        <div class="card-body text-center">
+            <img src="~/img/Avt/@tech.AvatarUrl" alt="Technician" class="profile-img mb-3">
+            <h5 class="card-title">@tech.FullName</h5>
+            @* <div class="rating mb-2">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+                <span class="ml-1">@tech.Rating</span>
+            </div> *@
+                @{
+                    int fullStars = (int)Math.Floor(tech.Rating??0);
+                    bool hasHalfStar = (tech.Rating - fullStars) >= 0.5;
+                    int emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+                }
+                <div class="rating mb-2">
+                    @for (int i = 0; i < fullStars; i++)
+                    {
+                        <i class="fas fa-star text-warning"></i>
+                    }
+                    @if (hasHalfStar)
+                    {
+                        <i class="fas fa-star-half-alt text-warning"></i>
+                    }
+                    @for (int i = 0; i < emptyStars; i++)
+                    {
+                        <i class="far fa-star text-warning"></i>
+                    }
+                    <span class="ml-1">@tech.Rating</span>
+                </div>
+                @functions {
+                public string GetColorFromSkill(string skill)
+                {
+                    int hash = skill.GetHashCode();
+                    int r = (hash & 0xFF0000) >> 16;
+                    int g = (hash & 0x00FF00) >> 8;
+                    int b = (hash & 0x0000FF);
+                    return $"rgb({r % 200},{g % 200},{b % 200})"; // tránh màu quá sáng
+                }
+            }
+
+            <div class="mb-3">
+                @* <span class="badge badge-primary expertise-badge">Plumbing</span>
+                <span class="badge badge-info expertise-badge">Electrical</span> *@
+                @foreach (var skill in tech.Expertise)
+                    {
+                        var color = GetColorFromSkill(skill);
+                        <span class="badge expertise-badge" style="background-color:@color;color:white;">@skill</span>
+                    }
+
+            </div>
+            <p class="card-text">@tech.Bio</p>
+            <button class="btn btn-success request-btn" data-toggle="modal" data-target="#requestModal" data-id="@tech.UserId" data-name="@tech.FullName">Gửi Yêu Cầu</button>
+        </div>
+        <div class="card-footer text-muted"> 
+            <small>Last job: 2 days ago</small>
+        </div>
+    </div>
+</div>
+
+}
+

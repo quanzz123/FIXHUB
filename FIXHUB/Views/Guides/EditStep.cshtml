@@ -111,8 +111,14 @@
 
                                         <div class="content-editor">
                                             <div class="mb-3">
-                                                <label asp-for="Details" for="stepContent" class="form-label">Step Instructions</label>
-                                                <textarea asp-for="Details" class="form-control" id="stepContent" rows="4">To open the enclosure, pull the top half down toward the wedged end and lift it away from the bottom half.</textarea>
+                                                <label asp-for="Details"  class="form-label">Step Instructions</label>
+                                            @* <textarea asp-for="Details" class="form-control" id="stepContent" rows="4">To open the enclosure, pull the top half down toward the wedged end and lift it away from the bottom half.</textarea> *@
+                                            <textarea asp-for="Details" class="form-control" id="stepContent" rows="4"></textarea>
+                                            <!-- Initialize Summernote INSIDE the tab -->
+                                            @{
+                                                var summernote = new FIXHUB.Areas.Admin.Models.SummerNote("#stepContent");
+                                            }
+                                            <partial name="~/Areas/Admin/Views/Shared/_SummerNote.cshtml" model="summernote" />
                                             </div>
                                         </div>
 

@@ -1,0 +1,71 @@
+﻿@using FIXHUB.Models;
+@model IList<News>
+
+
+
+<h1>Danh sách danh mục hướng dẫn</h1>
+<!-- Table Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+
+        <div class="col-12">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">
+                    <a type="button" class="btn btn-primary m-2" asp-area="Admin" asp-controller="News" asp-action="Create">
+                        <i class="bi bi-plus-circle"></i>
+                        Thêm mới
+                    </a>
+                </h6>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Tiêu đề</th>
+                                <th scope="col">Ảnh</th>
+                                <th scope="col">Tóm tắt</th>
+                                <th scope="col">Ẩn/Hiện</th>
+                                <th scope="col">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var news in Model)
+                            {
+
+
+
+                                    <tr>
+                                        <th scope="row">@news.NewsId</th>
+                                        <td>@news.Title</td>
+                                        <td>
+                                            <img src="~/img/News/@news.ImageUrl" style="width:50px;height:50px" />
+                                        </td>
+                                        <td>@news.Summary</td>
+                                    <td>
+                                        @if (news.IsPublished ?? false)
+                                        {
+                                            <span class="btn btn-success disabled">Hiện</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="btn btn-danger disabled">Ẩn</span>
+                                        }
+                                    </td>
+                                   
+                                        <td>
+                                            <a asp-area="Admin" asp-controller="News" asp-action="Edit" asp-route-id="@news.NewsId" class="btn btn-warning m-2"><i class="bi bi-pencil-fill"></i>Sửa </a>
+                                            <a asp-area="Admin" asp-controller="News" asp-action="Remove" asp-route-id="@news.NewsId" class="btn btn-danger m-2"><i class="bi bi-eraser-fill"></i>Xoá</a>
+                                        </td>
+                                    </tr>
+                            }
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Table End -->

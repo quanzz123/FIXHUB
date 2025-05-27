@@ -1,0 +1,4 @@
+System.FormatException: The header contains invalid values at index 0: '<null>'
+   at Microsoft.Net.Http.Headers.HttpHeaderParser`1.ParseValue(StringSegment value, Int32& index)
+   at Microsoft.AspNetCore.Mvc.ControllerBase.Content(String content, String contentType)
+   at FIXHUB.Areas.Admin.Controllers.FileSystemController.Connector() in T:\WORKSPACE\FIXHUB\FIXHUB\Areas\Admin\Controllers\FileSystemController.cs:line 27

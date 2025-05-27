@@ -3,6 +3,7 @@ using elFinder.NetCore;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
+using Azure;
 
 namespace FIXHUB.Areas.Admin.Controllers
 {
@@ -18,18 +19,36 @@ namespace FIXHUB.Areas.Admin.Controllers
         [Route("connector")]
         public async Task<IActionResult> Connector()
         {
-            var connector = GetConnector();
-            var result = await connector.ProcessAsync(Request);
-            if (result is JsonResult)
+            try
             {
-                var json = result as JsonResult;
-                return Content(JsonSerializer.Serialize(json.Value), json.ContentType);
+                var connector = GetConnector();
+                var result = await connector.ProcessAsync(Request);
+                if (result is JsonResult json)
+                {
+                    //return Content(JsonSerializer.Serialize(json.Value), json.ContentType);
+                    //return Content(
+                    //                JsonSerializer.Serialize(json.Value),
+                    //                json.ContentType ?? "application/json"
+
+                    //            );
+                    return Json(json.Value);
+
+
+
+                }
+                else
+                {
+                    return Json(result);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return Json(result);
+                // Ghi log lỗi ra file (hoặc dùng ILogger nếu có)
+                await System.IO.File.WriteAllTextAsync("wwwroot/files/error-log.txt", ex.ToString());
+                return StatusCode(500, "Internal server error");
             }
         }
+
 
         // Địa chỉ để truy vấn thumbnail
         // /el-finder-file-system/thumb
@@ -55,7 +74,9 @@ namespace FIXHUB.Areas.Admin.Controllers
 
             // https://localhost:5001/files/
             string url = $"/{pathroot}/";
-            string urlthumb = $"{uri.Scheme}://Admin/el-finder-file-system/thumb/";
+            //string urlthumb = $"{uri.Scheme}://Admin/el-finder-file-system/thumb/";
+            string urlthumb = $"{uri.Scheme}://{uri.Host}:{uri.Port}/Admin/el-finder-file-system/thumb/";
+
 
 
             var root = new RootVolume(rootDirectory, url, urlthumb)

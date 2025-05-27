@@ -1,7 +1,7 @@
 ﻿@model FIXHUB.ViewModels.NewsViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
@@ -10,25 +10,32 @@
         <div class="col-sm-12 col-xl-6">
             <div class="bg-light rounded h-100 p-4">
                 <h6 class="mb-4">Thêm mới tin tức</h6>
-                <form method="post" enctype="multipart/form-data">
+                <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                    <input asp-for="NewsId" type="hidden" />
                     <div class="mb-3">
                         <label asp-for="Title" class="form-label">Tiêu đề tin tức</label>
                         <input asp-for="Title" type="text" class="form-control" id="exampleInputEmail1"
                                aria-describedby="emailHelp">
-                        
+
                     </div>
                     <div class="mb-3">
                         <label asp-for="Summary" class="form-label">Tóm tắt</label>
                         <input asp-for="Summary" type="text" class="form-control" id="exampleInputPassword1">
                     </div>
                     <div class="mb-3">
-                        <label for="formFile" class="form-label">File ảnh tin tức</label>
+                        <label for="formFile" class="form-label">File ảnh mới(nếu có)</label>
                         <input name="ImageFile" class="form-control" type="file">
-                    </div> 
-                    
+                        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                        {
+                            <div class="mt-2">
+                                <img src="@Model.ImageUrl" width="150" />
+                            </div>
+                        }
+                    </div>
+
                     <div class="form-floating">
-                        <textarea asp-for="Content"  class="form-control" 
-                                   style="height: 150px;"></textarea>
+                        <textarea asp-for="Content" class="form-control"
+                                  style="height: 150px;"></textarea>
                         @* <label asp-for="Content"></label> *@
                     </div>
                     <div class="form-check form-switch">
@@ -39,7 +46,8 @@
                         </label>
                     </div>
                     <button type="submit" class="btn btn-primary">Lưu</button>
-                    <a asp-action="Index"  type="submit" class="btn btn-primary">Thoát</a>
+                    <a asp-action="Index" type="submit" class="btn btn-primary">Thoát</a>
+
                 </form>
             </div>
         </div>

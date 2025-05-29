@@ -27,13 +27,25 @@ public partial class User
 
     public virtual ICollection<NewsComment> NewsComments { get; set; } = new List<NewsComment>();
 
+    public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
+
+    public virtual ICollection<PointTransaction> PointTransactionReceivers { get; set; } = new List<PointTransaction>();
+
+    public virtual ICollection<PointTransaction> PointTransactionSenders { get; set; } = new List<PointTransaction>();
+
     public virtual ICollection<RepairGuide> RepairGuides { get; set; } = new List<RepairGuide>();
 
     public virtual ICollection<ServiceRequest> ServiceRequests { get; set; } = new List<ServiceRequest>();
 
+    public virtual ICollection<StepComment> StepComments { get; set; } = new List<StepComment>();
+
     public virtual ICollection<StoreOrder> StoreOrders { get; set; } = new List<StoreOrder>();
 
     public virtual ICollection<Technician> Technicians { get; set; } = new List<Technician>();
+
+    public virtual ICollection<TopUpTransaction> TopUpTransactions { get; set; } = new List<TopUpTransaction>();
+
+    public virtual UserPoint? UserPoint { get; set; }
 
     public virtual ICollection<UserProfile> UserProfiles { get; set; } = new List<UserProfile>();
 

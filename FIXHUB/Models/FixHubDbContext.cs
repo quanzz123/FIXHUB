@@ -31,7 +31,11 @@ public partial class FixHubDbContext : DbContext
 
     public virtual DbSet<NewsComment> NewsComments { get; set; }
 
+    public virtual DbSet<Notification> Notifications { get; set; }
+
     public virtual DbSet<OrderDetail> OrderDetails { get; set; }
+
+    public virtual DbSet<PointTransaction> PointTransactions { get; set; }
 
     public virtual DbSet<Product> Products { get; set; }
 
@@ -53,6 +57,8 @@ public partial class FixHubDbContext : DbContext
 
     public virtual DbSet<ServiceType> ServiceTypes { get; set; }
 
+    public virtual DbSet<StepComment> StepComments { get; set; }
+
     public virtual DbSet<StoreOrder> StoreOrders { get; set; }
 
     public virtual DbSet<Teardown> Teardowns { get; set; }
@@ -61,15 +67,17 @@ public partial class FixHubDbContext : DbContext
 
     public virtual DbSet<Technician> Technicians { get; set; }
 
+    public virtual DbSet<TopUpTransaction> TopUpTransactions { get; set; }
+
     public virtual DbSet<User> Users { get; set; }
+
+    public virtual DbSet<UserPoint> UserPoints { get; set; }
 
     public virtual DbSet<UserProfile> UserProfiles { get; set; }
 
     public virtual DbSet<UserRole> UserRoles { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("data source= NEYAQUAN\\HONGQUAN; initial catalog=FixHubDB; integrated security=True; TrustServerCertificate=True;");
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -150,6 +158,7 @@ public partial class FixHubDbContext : DbContext
             entity.Property(e => e.HistoryStepId)
                 .ValueGeneratedNever()
                 .HasColumnName("HistoryStepID");
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.ImgUrl).HasMaxLength(250);
             entity.Property(e => e.StepId).HasColumnName("StepID");
             entity.Property(e => e.Title).HasMaxLength(250);
@@ -229,6 +238,25 @@ public partial class FixHubDbContext : DbContext
                 .HasConstraintName("FK__NewsComme__UserI__31B762FC");
         });
 
+        modelBuilder.Entity<Notification>(entity =>
+        {
+            entity.HasKey(e => e.NotificationId).HasName("PK__Notifica__20CF2E12043856F1");
+
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.IsRead).HasDefaultValue(false);
+            entity.Property(e => e.Title).HasMaxLength(255);
+
+            entity.HasOne(d => d.Transaction).WithMany(p => p.Notifications)
+                .HasForeignKey(d => d.TransactionId)
+                .HasConstraintName("FK__Notificat__Trans__43A1090D");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Notifications)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK__Notificat__UserI__40C49C62");
+        });
+
         modelBuilder.Entity<OrderDetail>(entity =>
         {
             entity.HasKey(e => e.OrderDetailId).HasName("PK__OrderDet__D3B9D30C45D183E7");
@@ -245,6 +273,28 @@ public partial class FixHubDbContext : DbContext
             entity.HasOne(d => d.Product).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.ProductId)
                 .HasConstraintName("FK__OrderDeta__Produ__4CA06362");
+        });
+
+        modelBuilder.Entity<PointTransaction>(entity =>
+        {
+            entity.HasKey(e => e.TransactionId).HasName("PK__PointTra__55433A6B0AB6A4EE");
+
+            entity.ToTable("PointTransaction");
+
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Description).HasMaxLength(255);
+            entity.Property(e => e.Type).HasMaxLength(20);
+
+            entity.HasOne(d => d.Receiver).WithMany(p => p.PointTransactionReceivers)
+                .HasForeignKey(d => d.ReceiverId)
+                .HasConstraintName("FK_PointTransaction_Receiver");
+
+            entity.HasOne(d => d.Sender).WithMany(p => p.PointTransactionSenders)
+                .HasForeignKey(d => d.SenderId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PointTransaction_Sender");
         });
 
         modelBuilder.Entity<Product>(entity =>
@@ -400,6 +450,29 @@ public partial class FixHubDbContext : DbContext
             entity.Property(e => e.Name).HasMaxLength(100);
         });
 
+        modelBuilder.Entity<StepComment>(entity =>
+        {
+            entity.HasKey(e => e.CommentId).HasName("PK__StepComm__C3B4DFCACDBFE691");
+
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+
+            entity.HasOne(d => d.ParentComment).WithMany(p => p.InverseParentComment)
+                .HasForeignKey(d => d.ParentCommentId)
+                .HasConstraintName("FK_StepComments_Parent");
+
+            entity.HasOne(d => d.Step).WithMany(p => p.StepComments)
+                .HasForeignKey(d => d.StepId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_StepComments_Step");
+
+            entity.HasOne(d => d.User).WithMany(p => p.StepComments)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_StepComments_User");
+        });
+
         modelBuilder.Entity<StoreOrder>(entity =>
         {
             entity.HasKey(e => e.OrderId).HasName("PK__StoreOrd__C3905BAF43BF02EC");
@@ -463,6 +536,23 @@ public partial class FixHubDbContext : DbContext
                 .HasConstraintName("FK__Technicia__UserI__6A30C649");
         });
 
+        modelBuilder.Entity<TopUpTransaction>(entity =>
+        {
+            entity.HasKey(e => e.TopUpId).HasName("PK__TopUpTra__84146BC77A0B976A");
+
+            entity.Property(e => e.Amount).HasColumnType("money");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.PaymentMethod).HasMaxLength(100);
+            entity.Property(e => e.Status).HasMaxLength(50);
+            entity.Property(e => e.TransactionCode).HasMaxLength(255);
+
+            entity.HasOne(d => d.User).WithMany(p => p.TopUpTransactions)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK__TopUpTran__UserI__32767D0B");
+        });
+
         modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(e => e.UserId).HasName("PK__Users__1788CCAC06422586");
@@ -477,6 +567,19 @@ public partial class FixHubDbContext : DbContext
             entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.PasswordHash).HasMaxLength(255);
             entity.Property(e => e.UserName).HasMaxLength(100);
+        });
+
+        modelBuilder.Entity<UserPoint>(entity =>
+        {
+            entity.HasKey(e => e.UserId).HasName("PK__UserPoin__1788CC4CA758F6C8");
+
+            entity.Property(e => e.UserId).ValueGeneratedNever();
+            entity.Property(e => e.PointBalance).HasDefaultValue(0);
+
+            entity.HasOne(d => d.User).WithOne(p => p.UserPoint)
+                .HasForeignKey<UserPoint>(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__UserPoint__UserI__2EA5EC27");
         });
 
         modelBuilder.Entity<UserProfile>(entity =>

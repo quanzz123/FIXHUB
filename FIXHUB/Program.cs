@@ -1,4 +1,5 @@
 ﻿using FIXHUB.Models;
+using FIXHUB.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 
 builder.Services.AddAuthorization();
+builder.Services.AddSingleton<IVnpayServices, VnPayService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

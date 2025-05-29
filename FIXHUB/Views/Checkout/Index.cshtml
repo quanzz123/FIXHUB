@@ -1,0 +1,265 @@
+﻿@{
+    List<TopUpTransaction> pointTransactions = ViewBag.UserTransactions as List<TopUpTransaction>;
+}
+@section Styles {
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+
+        .header-section {
+            background-color: white;
+            padding: 20px;
+            border-bottom: 2px solid #dee2e6;
+            margin-bottom: 30px;
+        }
+
+        .balance-display {
+            font-size: 18px;
+            color: #6c757d;
+        }
+
+        .amount-input {
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .top-up-btn {
+            background-color: #5a9fd4;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .amount-btn {
+            border: 2px solid #6c757d;
+            background-color: white;
+            color: #333;
+            padding: 15px;
+            margin: 5px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .amount-btn:hover {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .money-icon {
+            width: 150px;
+            height: 100px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            border-radius: 10px;
+            position: relative;
+            margin: 20px auto;
+        }
+
+        .money-icon::before {
+            content: '$';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .card-icon {
+            width: 100px;
+            height: 60px;
+            background-color: #6c757d;
+            border-radius: 8px;
+            position: absolute;
+            bottom: -10px;
+            right: -10px;
+        }
+
+        .section-title {
+            color: #007bff;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .table-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .table th {
+            background-color: #f8f9fa;
+            border-top: none;
+            font-weight: bold;
+            color: #6c757d;
+            padding: 15px 8px;
+        }
+
+        .table td {
+            padding: 15px 8px;
+            vertical-align: middle;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .total-row {
+            font-weight: bold;
+            background-color: #e9ecef !important;
+        }
+
+        .checkbox-col {
+            width: 50px;
+        }
+
+        .amount-col {
+            text-align: right;
+            font-weight: bold;
+        }
+    </style>
+}
+<div class="container-fluid">
+    <!-- Header Section -->
+    <div class="header-section">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h4 class="mb-0">Nạp tiền vào tài khoản</h4>
+            </div>
+            <div class="col-md-4 text-right">
+                <span class="balance-display">Số điểm còn lại: @ViewBag.PointBalance</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top-up Section -->
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <form asp-action="Checkout" method="post">
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-8">
+                            <input type="text" name="Amount" class="form-control amount-input" placeholder="Nhập số tiền">
+                            <input type="hidden" name="PaymentMethod" value="Thanh toán VNPay" />
+                        </div>
+                        <div class="col-md-4">
+                            <button type="submit" class="btn top-up-btn btn-block">
+                                <i class="fas fa-credit-card mr-2"></i>Nạp tiền
+                            </button>
+                        </div>
+                    </div>
+                
+                </form>
+
+                <!-- Amount Buttons -->
+                <div class="row">
+                    <div class="col-md-4">
+                        <button class="btn amount-btn btn-block">200.000đ</button>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn amount-btn btn-block">500.000đ</button>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn amount-btn btn-block">1.000.000đ</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <button class="btn amount-btn btn-block">2.000.000đ</button>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn amount-btn btn-block">3.000.000đ</button>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn amount-btn btn-block">5.000.000đ</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Money Icon -->
+            <div class="col-md-4">
+                <div class="money-icon position-relative">
+                    <div class="card-icon"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Unpaid Accounts Table -->
+        <div class="mt-5">
+            <h5 class="section-title">LỊCH SỬ GIAO DỊCH</h5>
+            <div class="table-container">
+                <table class="table table-bordered mb-0">
+                    <thead>
+                        <tr>
+                            <th class="checkbox-col"></th>
+                            <th>TT</th>
+                            <th>Trạng thái</th>
+                            <th class="amount-col">Số tiền</th>
+                            <th>Điểm</th>
+                            <th>Thời điểm phát sinh</th>
+                        </tr>   
+                    </thead>
+                    <tbody>
+                        @{
+                            int stt = 1;
+                        }
+                        @foreach(var l in pointTransactions) {
+
+                            <tr>
+                                <td class="text-center">
+                                    <input type="checkbox" class="form-check-input">
+                                </td>
+                                <td>@stt</td>
+                                <td>@l.Status</td>
+                                <td class="amount-col">@l.Amount.Value.ToString("#,##0")</td>
+                                <td>@l.Points</td>
+                                <td>@l.CreatedAt.Value.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                            </tr>
+                            stt++;
+                        }
+                      
+                         <tr class="total-row">
+                            <td colspan="3"></td>
+                            <td class="amount-col">Tổng:  @pointTransactions.Sum(sum => sum.Amount).Value.ToString("#,##0")</td>
+                            <td colspan="2"></td>
+                        </tr> 
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Gán số tiền khi click vào các nút chọn nhanh
+        document.querySelectorAll('.amount-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                // Lấy text, loại bỏ dấu chấm và "đ"
+                const raw = this.textContent.replace(/[^\d]/g, '');
+                document.querySelector('.amount-input').value = raw;
+            });
+        });
+
+        // Nếu sau này dùng checkbox để cộng tổng tiền hoặc dịch vụ
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                // Viết logic tính tổng tiền ở đây nếu cần
+                console.log('Checkbox changed:', this.checked);
+            });
+        });
+    </script>
+
+}

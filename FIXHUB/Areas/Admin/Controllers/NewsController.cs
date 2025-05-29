@@ -29,12 +29,14 @@ namespace FIXHUB.Areas.Admin.Controllers
             return View(news);
         }
         [HttpGet]
+        [Authorize]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create(NewsViewModel model)
         {
             if (ModelState.IsValid)
@@ -71,6 +73,7 @@ namespace FIXHUB.Areas.Admin.Controllers
             return View(model);
         }
         [HttpGet]
+        [Authorize]
         public IActionResult Edit(int id)
         {
             var news = _context.News.Find(id);
@@ -89,6 +92,8 @@ namespace FIXHUB.Areas.Admin.Controllers
             };
             return View(model);
         }
+        [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Edit(NewsViewModel model)
         {
             if (ModelState.IsValid)

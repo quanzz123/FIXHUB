@@ -28,4 +28,6 @@ public partial class GuideStep
     public virtual ICollection<GuideStep> InverseModify { get; set; } = new List<GuideStep>();
 
     public virtual GuideStep? Modify { get; set; }
+
+    public virtual ICollection<StepComment> StepComments { get; set; } = new List<StepComment>();
 }

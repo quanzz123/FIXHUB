@@ -3,6 +3,8 @@
     var imgurl = Model.FirstOrDefault()?.GuideImgUrl;
     var title = Model.FirstOrDefault()?.GuideTitle;
     var intro = Model.FirstOrDefault() ?. GuideIntro;
+    var userInfo = ViewBag.UserInfo as FIXHUB.ViewModels.UserInfoViewModel;
+    List<RepairGuide> guides = ViewBag.sameUserGuides;
 }
 <!-- ================ start banner area ================= -->	
   <section class="blog-banner-area" id="blog">
@@ -24,7 +26,7 @@
 
 
   <!--================Blog Categorie Area =================-->
-  <section class="blog_categorie_area">
+  <section class="blog_categorie_area ">
         <div class="container mt-4">
             <div class="row tutorial-header align-items-center">
                 <div class="col-md-2 col-sm-3 text-center">
@@ -84,7 +86,7 @@
 
   <!--================Blog Area =================-->
   <section class="blog_area">
-      <div class="container">
+      <div class="container " style="margin-bottom: 200px">
           <div class="row">
               <div class="col-lg-8">
                   <div class="blog_left_sidebar">
@@ -129,13 +131,13 @@
                             <div class="col-md-9">
                                 <h2>Step @step.StepNumber </h2> 
                                 <div class="blog_post">
-                                    <img src="~/img/Guides/@step.ImagePath" alt="">
+                                    <img src="@step.ImagePath" alt="">
                                     <div class="blog_details">
                                         <a href="single-blog.html">
                                             <h2>Nội dung:</h2>
                                         </a>
                                         <p>
-                                           @step.Instruction
+                                            @Html.Raw(step.Instruction)
                                         </p>
                                         <a class="button button-blog" asp-controller="Guides" asp-action="EditStep" asp-route-id="@step.StepId">Chỉnh sửa</a>
                                         <a class="button button-blog" asp-controller="StepRepair" asp-action="Index" asp-route-id="@step.StepId">Lịch sử</a>
@@ -195,67 +197,62 @@
                           <div class="br"></div>
                       </aside>
                       <aside class="single_sidebar_widget author_widget">
-                          <img class="author_img rounded-circle" src="img/blog/author.png" alt="">
-                          <h4>Charlie Barber</h4>
-                          <p>Senior blog writer</p>
-                          <div class="social_icon">
-                              <a href="#">
-                                  <i class="fab fa-facebook-f"></i>
-                              </a>
-                              <a href="#">
-                                  <i class="fab fa-twitter"></i>
-                              </a>
-                              <a href="#">
-                                  <i class="fab fa-github"></i>
-                              </a>
-                              <a href="#">
-                                <i class="fab fa-behance"></i>
-                              </a>
-                          </div>
-                          <p>Boot camps have its supporters andit sdetractors. Some people do not understand why you should
-                              have to spend money on boot camp when you can get. Boot camps have itssuppor ters andits
-                              detractors.
-                          </p>
-                          <div class="br"></div>
+
+                            @if (userInfo?.User != null && userInfo?.UserProfile != null)
+                            {
+                                <img class="author_img rounded-circle" src="~/img/blog/author.png" alt="">
+
+                                <h4>@userInfo.User.UserName</h4>
+                                <p>@userInfo.UserProfile.FullName</p>
+                                <div class="social_icon">
+                                    <a href="#">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                    <a href="#">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                    <a href="#">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                    <a href="#">
+                                        <i class="fab fa-behance"></i>
+                                    </a>
+                                </div>
+                                <p>
+                                </p>
+                                <div class="br">
+                                    @userInfo.UserProfile.Bio
+                                </div>
+                            }
+                            else
+                            {
+                                <h4>Người đăng không xác định</h4>
+                            }
+                            
+                         
                       </aside>
                       <aside class="single_sidebar_widget popular_post_widget">
-                          <h3 class="widget_title">Popular Posts</h3>
-                          <div class="media post_item">
-                              <img src="img/blog/popular-post/post1.jpg" alt="post">
-                              <div class="media-body">
-                                  <a href="single-blog.html">
-                                      <h3>Space The Final Frontier</h3>
-                                  </a>
-                                  <p>02 Hours ago</p>
-                              </div>
-                          </div>
-                          <div class="media post_item">
-                              <img src="img/blog/popular-post/post2.jpg" alt="post">
-                              <div class="media-body">
-                                  <a href="single-blog.html">
-                                      <h3>The Amazing Hubble</h3>
-                                  </a>
-                                  <p>02 Hours ago</p>
-                              </div>
-                          </div>
-                          <div class="media post_item">
-                              <img src="img/blog/popular-post/post3.jpg" alt="post">
-                              <div class="media-body">
-                                  <a href="single-blog.html">
-                                      <h3>Astronomy Or Astrology</h3>
-                                  </a>
-                                  <p>03 Hours ago</p>
-                              </div>
-                          </div>
-                          <div class="media post_item">
-                              <img src="img/blog/popular-post/post4.jpg" alt="post">
-                              <div class="media-body">
-                                  <a href="single-blog.html">
-                                      <h3>Asteroids telescope</h3>
-                                  </a>
-                                  <p>01 Hours ago</p>
-                              </div>
-                          </div>
+                          <h3 class="widget_title">Xem Trang cá nhân</h3>
+                        @if (guides != null && guides.Any())
+                        {
+                            foreach (var guide in guides)
+                            {
+                                <div class="media post_item">
+                                    <img src="@guide.ImgUrl" alt="post" style="width: 80px; height: 80px; object-fit: cover;" />
+                                    <div class="media-body">
+                                        <a asp-action="RepairDetails" asp-controller="Guides" asp-route-id="@guide.GuideId">
+                                            <h3>@guide.Title</h3>
+                                        </a>
+                                        <p>@guide.CreatedAt?.ToString("HH:mm dd/MM/yyyy")</p>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p>Không có bài viết nào khác từ tác giả này.</p>
+                        }
+
                           <div class="br"></div>
                       </aside>
                       <aside class="single_sidebar_widget ads_widget">
@@ -312,7 +309,7 @@
                           </ul>
                           <div class="br"></div>
                       </aside>
-                      <aside class="single-sidebar-widget newsletter_widget">
+                     @*  <aside class="single-sidebar-widget newsletter_widget">
                           <h4 class="widget_title">Newsletter</h4>
                           <p>
                               Here, I focus on a range of items and features that we use in life without giving them a second thought.
@@ -331,8 +328,32 @@
                           </div>
                           <p class="text-bottom">You can unsubscribe at any time</p>
                           <div class="br"></div>
-                      </aside>
-                      <aside class="single-sidebar-widget tag_cloud_widget">
+                      </aside> *@
+                    <aside class="single-sidebar-widget donate_widget">
+                        <h4 class="widget_title">Ủng hộ Tác Giả</h4>
+                        <p>
+                            Hãy ủng hộ tác giả để họ có thêm động lực chia sẻ kiến thức và kinh nghiệm!
+                        </p>
+
+                        <div class="form-group">
+                            <label for="donateAmount">Chọn số điểm muốn donate:</label>
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                <button class="btn btn-outline-primary donate-btn" data-amount="10">10</button>
+                                <button class="btn btn-outline-primary donate-btn" data-amount="50">50</button>
+                                <button class="btn btn-outline-primary donate-btn" data-amount="100">100</button>
+                                <button class="btn btn-outline-primary donate-btn" data-amount="500">500</button>
+                                <button class="btn btn-outline-primary donate-btn" data-amount="1000">1000</button>
+                            </div>
+
+                            <input type="number" class="form-control" id="donateAmount" placeholder="Hoặc nhập số điểm khác...">
+                        </div>
+
+                        <button class="btn btn-success mt-2 w-100" id="donateSubmit">Donate</button>
+
+                        <p class="text-bottom mt-2 text-muted">Cảm ơn bạn đã ủng hộ! ❤️</p>
+                    </aside>
+                       
+                     @*  <aside class="single-sidebar-widget tag_cloud_widget">
                           <h4 class="widget_title">Tag Clouds</h4>
                           <ul class="list">
                               <li>
@@ -372,7 +393,7 @@
                                   <a href="#">Adventure</a>
                               </li>
                           </ul>
-                      </aside>
+                      </aside> *@
                   </div>
               </div>
           </div>
@@ -397,3 +418,17 @@
     </div>
   </section>
   <!--================End Instagram Area =================-->
+@section Scripts {
+    <script>
+        const donateButtons = document.querySelectorAll('.donate-btn');
+        const donateInput = document.getElementById('donateAmount');
+        const donateSubmit = document.getElementById('donateSubmit');
+
+        donateButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const amount = btn.getAttribute('data-amount');
+                donateInput.value = amount;
+            });
+        })
+    </script>
+}

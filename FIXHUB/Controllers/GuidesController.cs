@@ -64,6 +64,32 @@ namespace FIXHUB.Controllers
 
                                  }).ToList();
             //ViewBag["id"] = id;
+            var currentGuides = (from gu in _context.RepairGuides
+                                 where gu.GuideId == id
+                                 select gu).FirstOrDefault();
+            if (currentGuides != null)
+            {
+                var sameUserGuides = _context.RepairGuides
+                           .Where(gu => gu.UserId == currentGuides.UserId && gu.GuideId != id)
+                           .ToList();
+                ViewBag.sameUserGuides = sameUserGuides;
+            } else
+            {
+                return NotFound();
+            }
+                
+            ViewBag.UserInfo = (from g in _context.RepairGuides
+                                join u in _context.Users
+                                on g.UserId equals u.UserId
+                                join ui in _context.UserProfiles
+                                on u.UserId equals ui.UserId
+                                where g.GuideId == id
+                                select new UserInfoViewModel
+                                {
+                                    User  = u,
+                                    UserProfile = ui
+                                }).FirstOrDefault();
+
             return View(repairdetails);
         }
         [HttpGet]
@@ -127,7 +153,6 @@ namespace FIXHUB.Controllers
         }
         [HttpPost]
         [Authorize]
-       
         public async Task<IActionResult> CreateRepair(RepairGuide repair)
         {
             int userID = int.Parse(User.FindFirst("UserId")?.Value ?? "0");
@@ -211,7 +236,7 @@ namespace FIXHUB.Controllers
                         await step.ImageFile.CopyToAsync(stream);
                     }
 
-                    step.ImageUrl = "/img/Guides" + newFileName;
+                    step.ImageUrl = "/img/Guides/" + newFileName;
                 }
                 
                 _context.GuideSteps.Add(step);

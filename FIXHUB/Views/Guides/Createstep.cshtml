@@ -116,8 +116,8 @@
 
                                     <div class="content-editor">
                                         <div class="mb-3">
-                                            <label asp-for="Instruction" for="stepContent" class="form-label">Step Instructions</label>
-                                            <textarea asp-for="Instruction" class="form-control" id="stepContent" rows="4"></textarea>
+                                            <label asp-for="Instruction"  class="form-label">Step Instructions</label>
+                                            <textarea asp-for="Instruction" class="form-control" ></textarea>
                                         </div>
                                     </div>
 
@@ -273,3 +273,7 @@
         });
     });
 </script>
+@{
+    var summernote = new FIXHUB.Areas.Admin.Models.SummerNote("#Instruction");
+    <partial name="_SummerNote" model="summernote" />
+}

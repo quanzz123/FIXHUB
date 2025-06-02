@@ -77,7 +77,7 @@ public partial class FixHubDbContext : DbContext
 
     public virtual DbSet<UserRole> UserRoles { get; set; }
 
-
+    
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -141,6 +141,7 @@ public partial class FixHubDbContext : DbContext
             entity.Property(e => e.GuideId).HasColumnName("GuideID");
             entity.Property(e => e.ImageUrl).HasMaxLength(255);
             entity.Property(e => e.ModifyId).HasColumnName("ModifyID");
+            entity.Property(e => e.Title).HasMaxLength(500);
 
             entity.HasOne(d => d.Guide).WithMany(p => p.GuideSteps)
                 .HasForeignKey(d => d.GuideId)
@@ -155,9 +156,7 @@ public partial class FixHubDbContext : DbContext
         {
             entity.ToTable("HistoryStep");
 
-            entity.Property(e => e.HistoryStepId)
-                .ValueGeneratedNever()
-                .HasColumnName("HistoryStepID");
+            entity.Property(e => e.HistoryStepId).HasColumnName("HistoryStepID");
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.ImgUrl).HasMaxLength(250);
             entity.Property(e => e.StepId).HasColumnName("StepID");
@@ -335,7 +334,6 @@ public partial class FixHubDbContext : DbContext
                 .HasColumnType("datetime");
             entity.Property(e => e.CreatedBy).HasMaxLength(50);
             entity.Property(e => e.ImgUrl).IsUnicode(false);
-            entity.Property(e => e.Summary).HasMaxLength(500);
             entity.Property(e => e.Title).HasMaxLength(255);
             entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
             entity.Property(e => e.UserId).HasColumnName("UserID");

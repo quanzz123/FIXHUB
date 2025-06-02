@@ -1,4 +1,4 @@
-﻿@model FIXHUB.ViewModels.LoginViewModel;
+﻿@model FIXHUB.ViewModels.RegisterViewModel;
 <!DOCTYPE html>
 <html lang="en">
 
@@ -50,32 +50,39 @@
                             <a href="index.html" class="">
                                 <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>FIXHUB</h3>
                             </a>
-                            <h3>Đăng nhập</h3>
+                            <h3>Đăng kí</h3>
                         </div>
-                        <form asp-action="Login" method="post">
+                        <form asp-action="Register" method="post">
                             <div class="form-floating mb-3">
                                 <input type="text" asp-for="UserName" class="form-control" id="floatingInput" placeholder="name@example.com">
                                 <label for="floatingInput" asp-for="UserName">Tên đăng nhập</label>
                             </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" asp-for="Email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                                <label for="floatingInput" asp-for="Email">Email</label>
+                            </div>
                             <div class="form-floating mb-4">
                                 <input type="password" asp-for="Password" class="form-control" id="floatingPassword" placeholder="Password">
                                 <label for="floatingPassword" asp-for="Password">Mật khẩu</label>
+                            </div>
+                            <div class="form-floating mb-4">
+                                <input type="password" asp-for="ConfirmPassword" class="form-control" id="floatingPassword" placeholder="Password">
+                                <label for="floatingPassword" asp-for="ConfirmPassword">Nhập lại mật khẩu</label>
                             </div>
                             <div class="d-flex align-items-center justify-content-between mb-4">
                                 <div class="form-check">
                                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
                                     <label class="form-check-label" for="exampleCheck1">Check me out</label>
                                 </div>
-                                <a href="">Quên mật khẩu</a>
-                                @if (ViewBag.Message != null)
-                                {
-                                    <p style="color:red;">@ViewBag.Message</p>
-                                }
+                                @* <a href="">Quên mật khẩu</a> *@
                             </div>
-                            <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Đăng nhập</button>
-                            <p class="text-center mb-0">Bạn chưa có tài khoản? <a asp-action="Register">Đăng kí tài khoản</a></p>
+                            <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Đăng kí</button>
+                            <p class="text-center mb-0">Bạn đã có tài khoản? <a asp-action="Login">Đăng nhập tài khoản</a></p>
                         </form>
-                        
+                        @if (ViewBag.Message != null)
+                        {
+                            <p style="color:red;">@ViewBag.Message</p>
+                        }
                     </div>
                 </div>
             </div>

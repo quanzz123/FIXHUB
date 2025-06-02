@@ -40,16 +40,16 @@
                                 <tr>
                                     <th scope="row">@gui.CategoryId</th>
                                     <td>@gui.CategoryName</td>
-                                    <td>@gui.Description</td>
+                                    <td>@Html.Raw(gui.Description)</td>
                                     <td>
-                                        <img src="~/img/Guide_Category/@gui.ImgUrl" style="width:150px;height:150px" />
+                                        <img src="@gui.ImgUrl" style="width:150px;height:150px" />
                                     </td>
                                     <td>@gui.ParentId</td>
                                     <td>@gui.Levels</td>
                                     <td><input type="checkbox" disabled @(gui.IsActive ? "checked" : "") /> </td>
                                     <td>
                                         <a asp-area="Admin" asp-controller="Guides" asp-action="Edit" asp-route-id="@gui.CategoryId" class="btn btn-warning m-2"><i class="bi bi-pencil-fill"></i>Sửa </a>
-                                        <a asp-area="Admin" asp-controller="Guides" asp-action="Remove" asp-route-id="@gui.CategoryId" class="btn btn-danger m-2"><i class="bi bi-eraser-fill"></i>Xoá</a>
+                                        <a asp-area="Admin" asp-controller="Guides" asp-action="Delete" asp-route-id="@gui.CategoryId" class="btn btn-danger m-2" onclick="return confirm('Bạn có chắc chắn muốn vô hiệu hoá danh mục này?');"><i class="bi bi-eraser-fill"></i>Xoá</a>
                                     </td>
                                 </tr>
                             }

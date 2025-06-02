@@ -105,7 +105,9 @@ namespace FIXHUB.Controllers
             }
             var model = new HistoryStep
             {
-                StepId = step.StepId
+                StepId = step.StepId,
+                Details = step.Instruction,
+                ImgUrl = step.ImageUrl,
             };
             return View(model);
         }
@@ -118,10 +120,16 @@ namespace FIXHUB.Controllers
             var user = (from u in _context.Users
                         where u.UserId == userID
                         select u).FirstOrDefault();
-          
-            if(ModelState.IsValid)
+
+          var guides = (from g in _context.RepairGuides
+                        join s in _context.GuideSteps
+                        on g.GuideId equals s.GuideId
+                        where s.StepId == historyStep.StepId
+                        select g).FirstOrDefault();
+            if (ModelState.IsValid)                                                                                              
             {
-                if(historyStep.ImageFile != null)
+                string? imgUrl = null;
+                if (historyStep.ImageFile != null)
                 {
                     var fileName = Path.GetFileNameWithoutExtension(historyStep.ImageFile.FileName);
                     var extenstion = Path.GetExtension(historyStep.ImageFile.FileName);
@@ -132,13 +140,38 @@ namespace FIXHUB.Controllers
                     {
                         await historyStep.ImageFile.CopyToAsync(stream);
                     }
-                    historyStep.ImgUrl = "/img/HistoryStep" + newFileName;
+                    //historyStep.ImgUrl = "/img/HistoryStep/" + newFileName;
+                    imgUrl = "/img/HistoryStep/" + newFileName;
                 }
-                historyStep.UserId = userID;
-               
-                _context.HistorySteps.Add(historyStep);
+                //kiểm tra xem guides.UserId có bằng userID không
+                if (guides.UserId == userID)
+                {
+                    var step = (from s in _context.GuideSteps
+                                where s.StepId == historyStep.StepId
+                                select s).FirstOrDefault();
+                    step.Instruction = historyStep.Details;
+                    step.ImageUrl = imgUrl ?? step.ImageUrl;
+
+
+                    _context.Update(step);
+                }
+                else
+                {
+                    //  Thêm mới vào bảng HistoryStep
+                    var newHistory = new HistoryStep
+                    {
+                        StepId = historyStep.StepId,
+                        Details = historyStep.Details,
+                        ImgUrl = imgUrl,
+                        UserId = userID,
+                        CreatedDate = DateTime.Now
+                    };
+
+                    _context.HistorySteps.Add(newHistory);
+                }
+
                 await _context.SaveChangesAsync();
-                return RedirectToAction("RepairDetails");
+                return RedirectToAction("RepairDetails", new { GuideId = guides.GuideId } );
             }
              return View(historyStep);
         }

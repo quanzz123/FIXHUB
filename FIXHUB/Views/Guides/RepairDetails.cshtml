@@ -90,8 +90,9 @@
           <div class="row">
               <div class="col-lg-8">
                   <div class="blog_left_sidebar">
-                      @foreach(var step in Model) {
-                        <article class="row blog_item">
+                    @foreach (var step in Model)
+                    {
+                        <article class="row blog_item mb-5">
                             <div class="col-md-3">
                                 <div class="blog_info text-right">
                                     <div class="post_tag">
@@ -102,49 +103,66 @@
                                     </div>
                                     <ul class="blog_meta list">
                                         <li>
-                                            <a href="#">
-                                                Mark wiens
-                                                <i class="lnr lnr-user"></i>
-                                            </a>
+                                            <a href="#">Mark wiens <i class="lnr lnr-user"></i></a>
                                         </li>
                                         <li>
-                                            <a href="#">
-                                                12 Dec, 2017
-                                                <i class="lnr lnr-calendar-full"></i>
-                                            </a>
+                                            <a href="#">12 Dec, 2017 <i class="lnr lnr-calendar-full"></i></a>
                                         </li>
                                         <li>
-                                            <a href="#">
-                                                1.2M Views
-                                                <i class="lnr lnr-eye"></i>
-                                            </a>
+                                            <a href="#">1.2M Views <i class="lnr lnr-eye"></i></a>
                                         </li>
                                         <li>
-                                            <a href="#">
-                                                06 Comments
-                                                <i class="lnr lnr-bubble"></i>
-                                            </a>
+                                            <a href="#">06 Comments <i class="lnr lnr-bubble"></i></a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
+
                             <div class="col-md-9">
-                                <h2>Step @step.StepNumber </h2> 
+                                <h2>Step @step.StepNumber</h2>
                                 <div class="blog_post">
-                                    <img src="@step.ImagePath" alt="">
+                                    <img src="@step.ImagePath" alt="" class="img-fluid" />
                                     <div class="blog_details">
                                         <a href="single-blog.html">
                                             <h2>Nội dung:</h2>
                                         </a>
-                                        <p>
-                                            @Html.Raw(step.Instruction)
-                                        </p>
+                                        <p>@Html.Raw(step.Instruction)</p>
+
+                                        <!-- Nút chỉnh sửa & lịch sử -->
                                         <a class="button button-blog" asp-controller="Guides" asp-action="EditStep" asp-route-id="@step.StepId">Chỉnh sửa</a>
                                         <a class="button button-blog" asp-controller="StepRepair" asp-action="Index" asp-route-id="@step.StepId">Lịch sử</a>
+
+                                        <!-- Nút bình luận -->
+                                        <button class="btn btn-sm btn-outline-primary mt-2 toggle-comment-btn" data-id="@step.StepId">
+                                            Bình luận
+                                        </button>
+
+                                        <!-- Form bình luận -->
+                                        <div class="comment-form mt-3 p-3 border rounded" id="comment-form-@step.StepId" style="display: none;">
+                                            <div class="mt-4">
+                                                <h6 class="mb-3">Các bình luận:</h6>
+                                                <div class="media mb-3 text-left">
+                                                    <div class="media-body">
+                                                        <h6 class="mt-0 font-weight-bold">Quân<small class="text-muted">25/5/2025</small></h6>
+                                                        <p>thao tác chuẩn</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h5>Nhập bình luận của bạn:</h5>
+                                            <form method="post" asp-controller="Comment" asp-action="AddComment">
+                                                <input type="hidden" name="StepId" value="@step.StepId" />
+                                                <div class="form-group">
+                                                    <textarea name="Content" class="form-control" rows="3" placeholder="Nội dung bình luận..."></textarea>
+                                                </div>
+                                                <button type="submit" class="btn btn-success btn-sm">Gửi bình luận</button>
+                                            </form>
+                                            
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </article>
+                        
                     }
                       
                       <nav class="blog-pagination justify-content-center d-flex">
@@ -344,8 +362,10 @@
                                 <button class="btn btn-outline-primary donate-btn" data-amount="500">500</button>
                                 <button class="btn btn-outline-primary donate-btn" data-amount="1000">1000</button>
                             </div>
-
+                            <input type="hidden" id="authorid" value="@(userInfo?.User?.UserId ?? 0)" />
                             <input type="number" class="form-control" id="donateAmount" placeholder="Hoặc nhập số điểm khác...">
+                            @* @Html.AntiForgeryToken() *@
+
                         </div>
 
                         <button class="btn btn-success mt-2 w-100" id="donateSubmit">Donate</button>
@@ -419,16 +439,79 @@
   </section>
   <!--================End Instagram Area =================-->
 @section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        // const donateButtons = document.querySelectorAll('.donate-btn');
+        // const donateInput = document.getElementById('donateAmount');
+        // const donateSubmit = document.getElementById('donateSubmit');
+
+        // donateButtons.forEach(btn => {
+        //     btn.addEventListener('click', () => {
+        //         const amount = btn.getAttribute('data-amount');
+        //         donateInput.value = amount;
+        //     });
+        // })
+
+
         const donateButtons = document.querySelectorAll('.donate-btn');
         const donateInput = document.getElementById('donateAmount');
         const donateSubmit = document.getElementById('donateSubmit');
+        const authorId = document.getElementById('authorid').value;
 
+        // Khi người dùng bấm vào button donate nhanh
         donateButtons.forEach(btn => {
             btn.addEventListener('click', () => {
                 const amount = btn.getAttribute('data-amount');
                 donateInput.value = amount;
             });
-        })
+        });
+
+        // Xử lý khi nhấn nút Donate
+        donateSubmit.addEventListener('click', async () => {
+            const amount = parseInt(donateInput.value);
+
+            if (isNaN(amount) || amount <= 0) {
+                alert("Vui lòng nhập số điểm hợp lệ để donate.");
+                return;
+            }
+
+            try {
+                const response = await fetch('/Donate/Donatepoint', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value // nếu có AntiForgery
+                    },
+                    body: JSON.stringify({
+                        authorId: parseInt(authorId),
+                        amount: amount
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // alert("Donate thành công! Cảm ơn bạn đã ủng hộ tác giả!");
+                           Swal.fire({
+                      title: "Donate Thành công!",
+                      icon: "success",
+                      draggable: true
+                    });
+                    donateInput.value = ''; 
+                } else {
+                    alert("Lỗi: " + result.message);
+                }
+            } catch (error) {
+                console.error('Lỗi donate:', error);
+                alert("Đã xảy ra lỗi khi donate.");
+            }
+        });
+
+         $(document).ready(function () {
+            $('.toggle-comment-btn').click(function () {
+                var id = $(this).data('id');
+                $('#comment-form-' + id).slideToggle(300); // mượt hơn
+            });
+        });
     </script>
 }

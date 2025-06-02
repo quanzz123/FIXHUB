@@ -17,6 +17,7 @@ public partial class HistoryStep
     public string? ImgUrl { get; set; }
 
     public int? UserId { get; set; }
+
     public DateTime? CreatedDate { get; set; }
 
     [NotMapped]

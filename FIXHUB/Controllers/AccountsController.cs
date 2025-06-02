@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using FIXHUB.ViewModels;
-
+using FIXHUB.Utilities;
+using FIXHUB.Services;
 namespace FIXHUB.Controllers
 {
     public class AccountsController : Controller
@@ -18,6 +19,42 @@ namespace FIXHUB.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model); 
+            }
+            var existingUser = _context.Users.FirstOrDefault(u => u.UserName == model.UserName);
+            if (existingUser != null)
+            {
+                ModelState.AddModelError("UserName", "Tên đăng nhập đã tồn tại.");
+                ViewBag.Message = "Tên đăng nhập hoặc email đã tồn tại";
+                return View(model);
+            }
+            var user = new User
+            {
+                UserName = model.UserName,
+                PasswordHash = func.HashPassword( model.Password), 
+                Email = model.Email
+            };
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+            // Tạo role cho user mới
+            var userRole = new UserRole
+            {
+                UserId = user.UserId,
+                RoleId = 3 // role 3 là của customer 
+            };
+            _context.UserRoles.Add(userRole);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Login");
         }
         [ HttpGet ]
         public IActionResult Login()
@@ -37,7 +74,7 @@ namespace FIXHUB.Controllers
             var account = (from u in _context.Users
                            join ur in _context.UserRoles on u.UserId equals ur.UserId
                            join r in _context.Roles on ur.RoleId equals r.RoleId
-                           where u.UserName == model.UserName && u.PasswordHash == model.Password
+                           where u.UserName == model.UserName 
                            select new
                            {
                                u.UserId,
@@ -47,7 +84,7 @@ namespace FIXHUB.Controllers
                                RoleName = r.RoleName
                            }).FirstOrDefault();
 
-            if (account == null)
+            if (account == null || !func.VerifyPassword(model.Password, account.PasswordHash))
             {
                 ViewBag.Message = "Sai tên đăng nhập hoặc mật khẩu";
                 return View(model);

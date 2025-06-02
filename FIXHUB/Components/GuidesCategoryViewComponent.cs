@@ -16,7 +16,7 @@ namespace FixHub2.Components
         public async Task<IViewComponentResult> InvokeAsync(int levels)
         {
             var item = (from m in _context.GuideCategories
-                        where (m.IsActive == true) && (m.Levels == levels)
+                        where (m.IsActive == true) && (m.ParentId == null)
                         select m).ToList();
             return await Task.FromResult((IViewComponentResult)View("Default", item));
         }

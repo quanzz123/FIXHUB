@@ -18,6 +18,8 @@ public partial class GuideStep
 
     public int? ModifyId { get; set; }
 
+    public string? Title { get; set; }
+
     [NotMapped]
     public IFormFile? ImageFile { get; set; }
 

@@ -1,0 +1,57 @@
+﻿@using FIXHUB.Models;
+@model FIXHUB.Models.Menu;
+@{
+
+    ViewData["Title"] = "Tạo mới Menu";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Sửa menu</h6>
+                <form method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label asp-for="Title" class="form-label">Tiêu đề</label>
+                        <input asp-for="Title" type="text" class="form-control" id="exampleInputEmail1"
+                               aria-describedby="emailHelp">
+
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Url" class="form-label">Đường dẫn</label>
+                        <input asp-for="Url" type="text" class="form-control" id="exampleInputPassword1">
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="ParentId" class="form-label">Danh mục cha</label>
+                        <select asp-for="ParentId" asp-items="ViewBag.ParentMenus" class="form-select">
+                            <option value="">-- Không chọn --</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Levels" class="form-label">Mức</label>
+                        <input asp-for="Levels" type="text" class="form-control" id="exampleInputPassword1">
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Positions" class="form-label">Vị trí</label>
+                        <input asp-for="Positions" type="text" class="form-control" id="exampleInputPassword1">
+                    </div>
+
+                    <div class="form-check form-switch">
+                        <input asp-for="IsActive" class="form-check-input" type="checkbox" role="switch"
+                               id="flexSwitchCheckDefault" />
+                        <label asp-for="IsActive" class="form-check-label" for="flexSwitchCheckDefault">
+                            Ẩn/Hiện
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                    <a asp-action="Index" type="submit" class="btn btn-primary">Thoát</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

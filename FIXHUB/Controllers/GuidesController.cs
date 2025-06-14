@@ -45,7 +45,7 @@ namespace FIXHUB.Controllers
             ViewBag.Guides = listofguides;
             return View(category);
         }
-
+        
         public IActionResult RepairDetails(int id)
         {
             var repairdetails = (from step in _context.GuideSteps
@@ -161,6 +161,7 @@ namespace FIXHUB.Controllers
                     var newHistory = new HistoryStep
                     {
                         StepId = historyStep.StepId,
+                        Title = historyStep.Title,
                         Details = historyStep.Details,
                         ImgUrl = imgUrl,
                         UserId = userID,
@@ -171,7 +172,12 @@ namespace FIXHUB.Controllers
                 }
 
                 await _context.SaveChangesAsync();
-                return RedirectToAction("RepairDetails", new { GuideId = guides.GuideId } );
+                //return RedirectToAction("RepairDetails", new { GuideId = guides.GuideId } );
+                return RedirectToAction(
+                                    "RepairDetails",         // Action name
+                                    "Guides",                // Controller name
+                                    new { id = guides.GuideId }  // Route values
+                                );
             }
              return View(historyStep);
         }

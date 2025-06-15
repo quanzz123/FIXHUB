@@ -1,0 +1,56 @@
+﻿@using FIXHUB.Models;
+@model IList<ServiceRequest>
+
+
+
+<h1>Danh sách yêu cầu</h1>
+<!-- Table Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+
+        <div class="col-12">
+            <div class="bg-light rounded h-100 p-4">
+               
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Tiêu đề</th>
+                                <th scope="col">Người đặt</th>
+                                <th scope="col">Ngày đặt</th>
+                                <th scope="col">Trạng thái</th>
+                                <th scope="col">Địa chỉ</th>
+                                <th scope="col">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var re in Model)
+                            {
+                                <tr>
+                                    <th scope="row">@re.RequestId</th>
+                                    <td>@re.Title</td>
+                                    <td>@re.User.UserName</td>
+
+                                    <td>@re.CreatedAt.Value.ToString("dd/MM/yyyy")</td>
+                                    <td>@re.Status</td>
+                                    <td>@re.Address</td>
+                                
+                                    <td>
+                                        <a asp-area="Admin" asp-controller="RequestServices" asp-action="Details" asp-route-id="@re.RequestId" class="btn btn-warning m-2"><i class="bi bi-pencil-fill"></i>Chi tiết</a>
+                                    
+                                    </td>
+                                </tr>
+                            }
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Table End -->
+

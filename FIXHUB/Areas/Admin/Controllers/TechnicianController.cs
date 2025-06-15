@@ -1,4 +1,5 @@
-﻿using FIXHUB.Models;
+﻿using FIXHUB.Areas.Admin.ViewModel;
+using FIXHUB.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FIXHUB.Areas.Admin.Controllers
@@ -13,7 +14,33 @@ namespace FIXHUB.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            var tech = (from t in _context.Technicians
+                        join u in _context.Users on t.UserId equals u.UserId
+                        join up in _context.UserProfiles on u.UserId equals up.UserId
+                        select new
+                        {
+                            t.TechnicianId,
+                            t.UserId,
+                            t.Expertise,
+                            t.Rating,
+                            UserName = u.UserName,
+                            ProfilePicture = up.AvatarUrl,
+                            IsActive = u.IsActive
+                        } 
+                        
+                        
+                        ).ToList();
+           var techVM = tech.Select(t => new TechnicianVM
+           {
+               TechnicianID = t.TechnicianId,
+               UserID = t.UserId,
+               Expertise = t.Expertise,
+               Rating = t.Rating,
+               UserName = t.UserName,
+               ProfilePicture = t.ProfilePicture,
+                IsActive = t.IsActive ?? true // Default to true if IsActive is null
+           }).ToList();
+            return View(techVM);
         }
     }
 }

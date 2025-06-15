@@ -101,7 +101,7 @@
                                 <a href="#" class="editor-link">@lis.UserName</a>
                             </td>
                             <td>
-                                <div class="edit-description">Bước #@lis.StepNumber Đã được sửa: @lis.Title, <a style="font-size: 14px" href="#">[Xem thêm...]</a></div>
+                                <div class="edit-description">Bước #@lis.StepNumber Đã được sửa: @lis.Title, <a style="font-size: 14px" asp-controller="StepRepair" asp-action="ChangestoStep" asp-route-id ="@lis.HistoryStepId">[Xem thêm...]</a></div>
                                @*  <div class="edit-details">(Denied by Clay Eickemeyer)</div> *@
                             </td>
                         </tr>

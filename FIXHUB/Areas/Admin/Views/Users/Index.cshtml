@@ -1,8 +1,8 @@
-﻿@model List<FIXHUB.Areas.Admin.ViewModel.TechnicianVM>
+﻿@model List<FIXHUB.Areas.Admin.ViewModel.UsersVM>
 
 
 
-<h1>Danh sách kĩ thuât viên FIXHUB</h1>
+<h1>Danh sách người dùng FIXHUB</h1>
 <!-- Table Start -->
 <div class="container-fluid pt-4 px-4">
     <div class="row g-4">
@@ -21,28 +21,32 @@
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Tên </th>
+                                <th scope="col">Tên đầy đủ </th>
                                 <th scope="col">Ảnh</th>
-                                <th scope="col">Đánh giá</th>
-                                <th scope="col">Lĩnh vực</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Số ĐT</th>
+                                <th scope="col">Số điểm</th>
                                 <th scope="col">Ẩn/Hiện</th>
                                 <th scope="col">Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
 
-                            @foreach (var tech in Model)
+                            @foreach (var u in Model)
                             {
                                 <tr>
-                                    <th scope="row">@tech.TechnicianID</th>
-                                    <td>@tech.UserName</td>
+                                    <th scope="row">@u.UserId</th>
+                                    <td>@u.UserName</td>
+                                    <td>@u.FullName</td>
                                     <td>
-                                        <img src="~/img/Avt/@tech.ProfilePicture" style="width:50px;height:50px" />
+                                        <img src="~/img/Avt/@u.ProfilePicture" style="width:50px;height:50px" />
                                     </td>
-                                    
-                                    <td>@tech.Rating</td>                              
-                                    <td>@tech.Expertise</td>
+
+                                    <td>@u.Email</td>
+                                    <td>@u.PhoneNumber</td>
+                                    <td>@u.points</td>
                                     <td>
-                                        @if (tech.IsActive)
+                                        @if (u.IsActive)
                                         {
                                             <span class="btn btn-success disabled">Hiện</span>
                                         }
@@ -52,8 +56,8 @@
                                         }
                                     </td>
                                     <td>
-                                        <a asp-area="Admin" asp-controller="Technician" asp-action="Edit" asp-route-id="@tech.TechnicianID" class="btn btn-warning m-2"><i class="bi bi-pencil-fill"></i>Sửa </a>
-                                        <a asp-area="Admin" asp-controller="Technician" asp-action="Remove" asp-route-id="@tech.TechnicianID" class="btn btn-danger m-2"><i class="bi bi-eraser-fill"></i>Xoá</a>
+                                        <a asp-area="Admin" asp-controller="Users" asp-action="Edit" asp-route-id="@u.UserId" class="btn btn-warning m-2"><i class="bi bi-pencil-fill"></i>Sửa </a>
+                                        <a asp-area="Admin" asp-controller="Users" asp-action="Remove" asp-route-id="@u.UserId" class="btn btn-danger m-2"><i class="bi bi-eraser-fill"></i>Xoá</a>
                                     </td>
                                 </tr>
                             }

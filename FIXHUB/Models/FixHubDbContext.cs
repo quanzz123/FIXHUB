@@ -15,6 +15,8 @@ public partial class FixHubDbContext : DbContext
     {
     }
 
+    public virtual DbSet<Contact> Contacts { get; set; }
+
     public virtual DbSet<ForumComment> ForumComments { get; set; }
 
     public virtual DbSet<ForumPost> ForumPosts { get; set; }
@@ -77,10 +79,20 @@ public partial class FixHubDbContext : DbContext
 
     public virtual DbSet<UserRole> UserRoles { get; set; }
 
-    
+   
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Contact>(entity =>
+        {
+            entity.ToTable("Contact");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.Email).HasMaxLength(50);
+            entity.Property(e => e.Name).HasMaxLength(50);
+            entity.Property(e => e.Phone).HasMaxLength(50);
+        });
+
         modelBuilder.Entity<ForumComment>(entity =>
         {
             entity.HasKey(e => e.CommentId).HasName("PK__ForumCom__C3B4DFAA7A9A8C10");
@@ -124,7 +136,6 @@ public partial class FixHubDbContext : DbContext
 
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
             entity.Property(e => e.CategoryName).HasMaxLength(100);
-            entity.Property(e => e.Description).HasMaxLength(255);
             entity.Property(e => e.ImgUrl).IsUnicode(false);
             entity.Property(e => e.ParentId).HasColumnName("ParentID");
 

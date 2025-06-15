@@ -1,0 +1,51 @@
+﻿@using FIXHUB.Areas.Admin.ViewModel;
+@model FIXHUB.Areas.Admin.ViewModel.UsersVM;
+@{
+
+    ViewData["Title"] = "Tạo mới Menu";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Thông tin các nhân</h6>
+                <form asp-action="EditAccount" method="post">
+                    <input asp-for="UserId" type="hidden" />
+                    <div class="mb-3">
+                        <label asp-for="UserName" class="form-label">Tên tài khoản</label>
+                        <input asp-for="UserName" type="text" class="form-control" id="exampleInputEmail1"
+                               aria-describedby="emailHelp" readonly>
+
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="FullName" class="form-label">Tên đầy đủ</label>
+                        <input asp-for="FullName" type="text" class="form-control" id="exampleInputPassword1" >
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label">Email</label>
+                        <input asp-for="Email" type="text" class="form-control" id="exampleInputPassword1" >
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label asp-for="PhoneNumber" class="form-label">Số ĐT</label>
+                        <input asp-for="PhoneNumber" type="text" class="form-control" id="exampleInputPassword1" >
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Address" class="form-label">Địa chỉ</label>
+                        <input asp-for="Address" type="text" class="form-control" id="exampleInputPassword1" >
+                    </div>
+                   
+
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                    <a asp-action="Index" type="submit" class="btn btn-primary">Thoát</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

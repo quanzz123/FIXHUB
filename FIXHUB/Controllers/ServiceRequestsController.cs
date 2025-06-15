@@ -53,7 +53,7 @@ namespace FIXHUB.Controllers
                 string preferredTime)
         {
 
-            
+            int userID = int.Parse(User.FindFirst("UserId")?.Value ?? "0");
             try
             {
                 var user = (from u in _context.Technicians
@@ -62,7 +62,7 @@ namespace FIXHUB.Controllers
                 // Tạo đối tượng request
                 var request = new ServiceRequest
                 {
-                    UserId = user.UserId,
+                    UserId = userID,
                     ServiceTypeId = serviceTypeId,
                     Title = title,
                     Description = description,

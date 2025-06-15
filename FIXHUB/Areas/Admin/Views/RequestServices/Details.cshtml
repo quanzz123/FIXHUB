@@ -1,0 +1,55 @@
+﻿
+@using FIXHUB.Models;
+@model FIXHUB.Models.ServiceRequest;
+@{
+
+    ViewData["Title"] = "Tạo mới Menu";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Đơn yêu cầu sửa</h6>
+                <form asp-action="AcceptRequest" method="post" >
+                    <input asp-for="RequestId" type="hidden" />
+                    <div class="mb-3">
+                        <label asp-for="Title" class="form-label">Tiêu đề</label>
+                        <input asp-for="Title" type="text" class="form-control" id="exampleInputEmail1"
+                               aria-describedby="emailHelp" readonly>
+
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="User.UserName" class="form-label">Người yêu cầu</label>
+                        <input asp-for="User.UserName" type="text" class="form-control" id="exampleInputPassword1" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="ServiceType.Name" class="form-label">Loại yêu cầu</label>
+                        <input asp-for="ServiceType.Name" type="text" class="form-control" id="exampleInputPassword1" readonly>
+                    </div>
+                    
+
+                    <div class="mb-3">
+                        <label asp-for="Description" class="form-label">Mô tả</label>
+                        <input asp-for="Description" type="text" class="form-control" id="exampleInputPassword1" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Address" class="form-label">Địa chỉ</label>
+                        <input asp-for="Address" type="text" class="form-control" id="exampleInputPassword1" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Status" class="form-label">Trạng thái</label>
+                        <input asp-for="Status" type="text" class="form-control" id="exampleInputPassword1" readonly>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Tiếp nhận</button>
+                    <a asp-action="Index" type="submit" class="btn btn-primary">Thoát</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

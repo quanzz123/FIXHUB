@@ -61,41 +61,56 @@
                         <span>Admin</span>
                     </div>
                 </div>
+                
                 <div class="navbar-nav w-100">
                     <a href="index.html" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
-                    <a asp-area="Admin" asp-controller="Menus" asp-action="index" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Menu</a>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Hướng dẫn</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a asp-area="Admin" asp-controller="Guides" asp-action="index" class="dropdown-item">Danh mục</a>
-                            <a asp-area="Admin" asp-controller="Guides" asp-action="RepairGuides" class="dropdown-item">Bài viết</a>
-                            <a href="element.html" class="dropdown-item">Other Elements</a>
+                    @if (User.IsInRole("admin"))
+                    {
+
+                        <a asp-area="Admin" asp-controller="Menus" asp-action="index" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Menu</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Hướng dẫn</a>
+                            <div class="dropdown-menu bg-transparent border-0">
+                                <a asp-area="Admin" asp-controller="Guides" asp-action="index" class="dropdown-item">Danh mục</a>
+                                <a asp-area="Admin" asp-controller="Guides" asp-action="RepairGuides" class="dropdown-item">Bài viết</a>
+                            
+                            </div>
                         </div>
-                    </div>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-cpu"></i>Sản phẩm</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a asp-area="Admin" asp-controller="Product" asp-action="Category" class="dropdown-item">Danh mục sản phẩm</a>
-                            <a asp-area="Admin" asp-controller="Product" asp-action="index" class="dropdown-item">Sản phẩm</a>
-                            <a href="element.html" class="dropdown-item">Đơn đặt hàng</a>
+                    
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-person-badge"></i>Kĩ thuật viên</a>
+                            <div class="dropdown-menu bg-transparent border-0">
+                                <a asp-action="Index" asp-controller="Technician" asp-area="Admin" class="dropdown-item">Danh sách</a>
+                            
+                            </div>
                         </div>
-                    </div>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-person-badge"></i>Kĩ thuật viên</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a href="button.html" class="dropdown-item">Buttons</a>
-                            <a href="typography.html" class="dropdown-item">Typography</a>
-                            <a href="element.html" class="dropdown-item">Other Elements</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-person-circle"></i>Người dùng</a>
+                            <div class="dropdown-menu bg-transparent border-0">
+                                <a asp-action="Index" asp-controller="Users" asp-area="Admin" class="dropdown-item">Danh sách</a>
+
+                            </div>
                         </div>
-                    </div>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-newspaper"></i>Bài viết</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a asp-action="Index" asp-controller="News" asp-area="Admin" class="dropdown-item">Tin tức</a>
-                            <a href="typography.html" class="dropdown-item">Typography</a>
-                            <a href="element.html" class="dropdown-item">Other Elements</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-newspaper"></i>Bài viết</a>
+                            <div class="dropdown-menu bg-transparent border-0">
+                                <a asp-action="Index" asp-controller="News" asp-area="Admin" class="dropdown-item">Tin tức</a>
+                            
+                            </div>
                         </div>
-                    </div>
+                        
+                    }
+                    @if(User.IsInRole("tech")) {
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-newspaper"></i>Yêu cầu</a>
+                            <div class="dropdown-menu bg-transparent border-0">
+                                <a asp-action="Index" asp-controller="RequestServices" asp-area="Admin" class="dropdown-item">Danh sách yêu cầu</a>
+                                <a asp-action="Index" asp-controller="News" asp-area="Admin" class="dropdown-item">Yêu cầu đã nhận</a>
+
+                            </div>
+                        </div>
+                    }
+                    
                     
                     
                 </div>
@@ -182,12 +197,16 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <img class="rounded-circle me-lg-2" src="~/admin/img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                            <span class="d-none d-lg-inline-flex">John Doe</span>
+                            <span class="d-none d-lg-inline-flex">@User.Identity.Name</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                            <a href="#" class="dropdown-item">My Profile</a>
-                            <a href="#" class="dropdown-item">Settings</a>
-                            <a asp-controller="Accounts" asp-action="Logout" asp-area="" class="dropdown-item">Log Out</a>
+                            @{
+                                int userId = int.Parse(User.FindFirst("UserId")?.Value ?? "0");
+                            }
+
+                            <a asp-controller="Users" asp-action="EditAccount" asp-area="Admin" asp-route-id="@userId" class="dropdown-item">Tài khoản</a>
+                            <a asp-controller="Users" asp-action="Logout" asp-area="Admin"  class="dropdown-item">Cài đặt</a>
+                            <a asp-controller="Accounts" asp-action="Logout" asp-area="" class="dropdown-item">Đăng xuất</a>
                         </div>
                     </div>
                 </div>

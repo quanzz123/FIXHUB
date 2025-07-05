@@ -62,4 +62,4 @@ FixHub supports 3 main user roles:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/fixhub.git
+   git clone https://github.com/your-username/fixhub.git](https://github.com/quanzz123/FIXHUB.git

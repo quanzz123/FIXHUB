@@ -1,5 +1,6 @@
-﻿using elFinder.NetCore.Drivers.FileSystem;
+using elFinder.NetCore.Drivers.FileSystem;
 using elFinder.NetCore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
@@ -8,6 +9,7 @@ using Azure;
 namespace FIXHUB.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "admin")]
     [Route("/Admin/el-finder-file-system")]
     public class FileSystemController : Controller
     {

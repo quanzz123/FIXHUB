@@ -1,10 +1,12 @@
-﻿using FIXHUB.Models;
+using FIXHUB.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace FIXHUB.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "admin,tech")]
     public class RequestServicesController : Controller
     {
         private readonly FixHubDbContext _context;

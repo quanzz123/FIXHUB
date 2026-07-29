@@ -1,4 +1,4 @@
-﻿using FIXHUB.Models;
+using FIXHUB.Models;
 using FIXHUB.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FIXHUB.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = "admin")]
     public class NewsController : Controller
     {
         private readonly FixHubDbContext _context;

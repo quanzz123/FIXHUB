@@ -21,12 +21,13 @@
                             <thead>
                                 <tr>
                                     <th scope="col">ID</th>
-                                    <th scope="col">Tiêu đề</th>
+                                    
                                     <th scope="col">Đường dẫn</th>
                                     <th scope="col">Mức</th>
                                     <th scope="col">Vi trí</th>
                                     <th scope="col">Menu cha</th>
                                     <th scope="col">Trạng thái</th>
+                                    <th scope="col">Tiêu đề</th>
                                     <th scope="col">Hành động</th>
                                 </tr>
                             </thead>
@@ -40,12 +41,13 @@
                                         
                                     <tr>
                                         <th scope="row">@menu.MenuId</th>
-                                        <td>@menu.Title</td>
                                         <td>@menu.Url</td>
                                         <td>@menu.Levels</td>
                                         <td>@menu.Positions</td>
                                         <td>@menu.ParentId</td>
                                         <td><input type="checkbox" disabled @(menu.IsActive ? "checked" : "") /> </td>
+                                    <td>@menu.Title</td>
+
                                         <td>
                                             <a asp-area="Admin" asp-controller="Menus" asp-action="Edit" asp-route-id="@menu.MenuId" class="btn btn-warning m-2" ><i class="bi bi-pencil-fill"></i>Sửa </a>
                                             <a asp-area="Admin" asp-controller="Menus" asp-action="Delete" asp-route-id="@menu.MenuId" class="btn btn-danger m-2" onclick="return confirm('Bạn có chắc chắn muốn vô hiệu hoá danh mục này?');"><i class="bi bi-eraser-fill"></i>Xoá</a>

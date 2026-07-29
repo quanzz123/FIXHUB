@@ -1,4 +1,5 @@
-﻿using FIXHUB.Models;
+using FIXHUB.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -6,6 +7,7 @@ using System;
 namespace FIXHUB.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "admin")]
     public class MenusController : Controller
     {
         private readonly FixHubDbContext _context;

@@ -1,4 +1,4 @@
-﻿using FIXHUB.Areas.Admin.ViewModel;
+using FIXHUB.Areas.Admin.ViewModel;
 using FIXHUB.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace FIXHUB.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "admin")]
     public class GuidesController : Controller
     {
         private readonly FixHubDbContext _context;

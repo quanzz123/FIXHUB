@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FIXHUB.Areas.Admin.Controllers
 {
+    [Area("Admin")]
+    [Authorize(Roles = "admin")]
+    [Route("/Admin/file-manager")]
     public class FileManagerController : Controller
     {
-        [Area("Admin")]
-        [Route("/Admin/file-manager")]
         public IActionResult Index()
         {
             return View();

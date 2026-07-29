@@ -1,4 +1,4 @@
-﻿using FIXHUB.Models;
+using FIXHUB.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
@@ -114,6 +114,13 @@ namespace FIXHUB.Controllers
         {
             await HttpContext.SignOutAsync();
             return RedirectToAction("Index","Home");
+        }
+
+        [HttpGet]
+        [Route("/Account/AccessDenied")]
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
 
     }

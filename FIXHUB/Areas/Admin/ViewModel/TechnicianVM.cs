@@ -6,7 +6,7 @@
 
         public int? UserID { get; set; }
 
-        public string? Expertise { get; set; }
+        public string? Expertise { get; set; } // chuyên môn
 
         public double? Rating { get; set; }
 

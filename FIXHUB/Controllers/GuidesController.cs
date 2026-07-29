@@ -174,9 +174,9 @@ namespace FIXHUB.Controllers
                 await _context.SaveChangesAsync();
                 //return RedirectToAction("RepairDetails", new { GuideId = guides.GuideId } );
                 return RedirectToAction(
-                                    "RepairDetails",         // Action name
-                                    "Guides",                // Controller name
-                                    new { id = guides.GuideId }  // Route values
+                                    "RepairDetails",         
+                                    "Guides",                
+                                    new { id = guides.GuideId }  
                                 );
             }
              return View(historyStep);

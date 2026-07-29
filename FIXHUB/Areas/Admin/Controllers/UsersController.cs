@@ -1,11 +1,13 @@
-﻿using FIXHUB.Areas.Admin.ViewModel;
+using FIXHUB.Areas.Admin.ViewModel;
 using FIXHUB.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace FIXHUB.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "admin")]
     public class UsersController : Controller
     {
         public FixHubDbContext _context;

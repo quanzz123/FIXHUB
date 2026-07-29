@@ -1,11 +1,11 @@
-﻿using FIXHUB.Models;
+using FIXHUB.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FIXHUB.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = "admin,tech")]
     public class HomeController : Controller
     {
         private readonly FixHubDbContext _context;

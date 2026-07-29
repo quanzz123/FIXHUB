@@ -1,10 +1,12 @@
-﻿using FIXHUB.Areas.Admin.ViewModel;
+using FIXHUB.Areas.Admin.ViewModel;
 using FIXHUB.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FIXHUB.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "admin")]
     public class TechnicianController : Controller
     {
         private readonly FixHubDbContext _context;
